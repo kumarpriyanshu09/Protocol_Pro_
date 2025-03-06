@@ -9,6 +9,7 @@ import {
   Animated,
   Pressable,
   TouchableOpacity,
+  Platform
 } from 'react-native';
 import {
   PanGestureHandler,
@@ -18,7 +19,7 @@ import ProgressBar from '../components/ProgressBar';
 import ProgressChart from '../components/charts/ProgressChart';
 import { mockProtocols } from '../data/mockData';
 import { Props } from '../types';
-
+import NotificationToast from '../components/NotificationToast';
 
 // Mock data for charts
 const weeklyProgress = [30, 45, 55, 60, 70, 65, 80];
@@ -32,17 +33,41 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
   const currentProtocol = mockProtocols[0];
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [pressedId, setPressedId] = useState<string | null>(null);
+  const [notification, setNotification] = useState({
+    message: '',
+    isVisible: false
+  });
+
+  const showNotification = (message: string) => {
+    setNotification({
+      message,
+      isVisible: true
+    });
+  };
 
   const toggleTask = (task: string) => {
-    setCompletedTasks(prev =>
-      prev.includes(task)
+    setCompletedTasks(prev => {
+      const newTasks = prev.includes(task)
         ? prev.filter(t => t !== task)
-        : [...prev, task]
-    );
+        : [...prev, task];
+
+      // Check for milestones
+      if (newTasks.length === 3) {
+        showNotification('🏆 Achievement Unlocked: Task Master!');
+      }
+
+      return newTasks;
+    });
+  };
+
+  const handleVoiceCommand = (task: string) => {
+    showNotification('🎤 Voice command detected: "Complete task"');
+    setTimeout(() => toggleTask(task), 1000);
   };
 
   const renderTask = ({ item, index }: { item: string; index: number }) => {
     const translateX = new Animated.Value(0);
+    const [isHovered, setIsHovered] = useState(false);
 
     const onGestureEvent = (event: PanGestureHandlerGestureEvent) => {
       const { translationX } = event.nativeEvent;
@@ -77,9 +102,14 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
             onPressIn={() => setPressedId(index.toString())}
             onPressOut={() => setPressedId(null)}
             onPress={() => toggleTask(item)}
+            {...(Platform.OS === 'web' ? {
+              onMouseEnter: () => setIsHovered(true),
+              onMouseLeave: () => setIsHovered(false),
+            } : {})}
             style={({ pressed }) => [
               styles.taskRow,
-              pressed && styles.taskPressed
+              pressed && styles.taskPressed,
+              isHovered && styles.taskHovered
             ]}
           >
             <View style={[
@@ -94,6 +124,12 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
               styles.taskText,
               completedTasks.includes(item) && styles.taskTextCompleted
             ]}>{item}</Text>
+            <TouchableOpacity
+              onPress={() => handleVoiceCommand(item)}
+              style={styles.voiceButton}
+            >
+              <Text>🎤</Text>
+            </TouchableOpacity>
           </Pressable>
         </Animated.View>
       </PanGestureHandler>
@@ -102,6 +138,11 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <NotificationToast
+        message={notification.message}
+        isVisible={notification.isVisible}
+        onDismiss={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+      />
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.contentContainer}
@@ -213,6 +254,9 @@ const styles = StyleSheet.create({
   taskPressed: {
     backgroundColor: '#2C2C2E',
   },
+  taskHovered: {
+    backgroundColor: '#2C2C2E',
+  },
   taskRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -257,5 +301,9 @@ const styles = StyleSheet.create({
     color: '#0A84FF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  voiceButton: {
+    padding: 8,
+    marginLeft: 8,
   },
 });
