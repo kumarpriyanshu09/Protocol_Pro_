@@ -19,12 +19,12 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const [selectedRole, setSelectedRole] = useState<'instructor' | 'follower'>('follower');
 
   const handleSubmit = () => {
-    // Mock authentication
-    const role = email.includes('instructor') ? 'instructor' : 'follower';
+    // Use the selected role for navigation during testing
     navigation.replace(
-      role === 'instructor' ? 'InstructorDashboard' : 'FollowerDashboard'
+      selectedRole === 'instructor' ? 'InstructorDashboard' : 'FollowerDashboard'
     );
   };
 
@@ -58,6 +58,37 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               onChangeText={setPassword}
               secureTextEntry
             />
+          </View>
+
+          {/* Role Selection for Testing */}
+          <View style={styles.roleContainer}>
+            <Text style={styles.roleLabel}>Select Role (Testing Only):</Text>
+            <View style={styles.roleButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.roleButton,
+                  selectedRole === 'follower' && styles.roleButtonActive,
+                ]}
+                onPress={() => setSelectedRole('follower')}
+              >
+                <Text style={[
+                  styles.roleButtonText,
+                  selectedRole === 'follower' && styles.roleButtonTextActive,
+                ]}>Follower</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.roleButton,
+                  selectedRole === 'instructor' && styles.roleButtonActive,
+                ]}
+                onPress={() => setSelectedRole('instructor')}
+              >
+                <Text style={[
+                  styles.roleButtonText,
+                  selectedRole === 'instructor' && styles.roleButtonTextActive,
+                ]}>Instructor</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
@@ -112,6 +143,38 @@ const styles = StyleSheet.create({
     height: 56,
     paddingHorizontal: 16,
     fontSize: 16,
+    color: '#FFFFFF',
+  },
+  roleContainer: {
+    marginBottom: 20,
+  },
+  roleLabel: {
+    color: '#8E8E93',
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  roleButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  roleButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    backgroundColor: '#1C1C1E',
+    alignItems: 'center',
+  },
+  roleButtonActive: {
+    backgroundColor: '#0A84FF',
+  },
+  roleButtonText: {
+    color: '#8E8E93',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  roleButtonTextActive: {
     color: '#FFFFFF',
   },
   loginButton: {
