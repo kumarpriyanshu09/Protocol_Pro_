@@ -24,17 +24,23 @@ Protocol Pro is designed to help instructors create and manage protocols, while 
 
 ## Getting Started
 
-1. Install dependencies:
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd protocol-pro
+   ```
+
+2. Install dependencies:
    ```
    npm install
    ```
 
-2. Start the development server:
+3. Start the development server:
    ```
    npm start
    ```
 
-3. Run on specific platforms:
+4. Run on specific platforms:
    ```
    npm run web     # Run in web browser
    npm run ios     # Run on iOS simulator
@@ -48,8 +54,51 @@ Protocol Pro is designed to help instructors create and manage protocols, while 
 - `data/`: Mock data for development
 - `types/`: TypeScript type definitions
 
+## Development Workflow
+
+### Git Workflow
+
+1. Create a new branch for each feature or bugfix:
+   ```
+   git checkout -b feature/feature-name
+   ```
+   or
+   ```
+   git checkout -b bugfix/bug-name
+   ```
+
+2. Make your changes and commit them with descriptive messages:
+   ```
+   git add .
+   git commit -m "Description of the changes"
+   ```
+
+3. Push your branch to the remote repository:
+   ```
+   git push origin feature/feature-name
+   ```
+
+4. Create a pull request for code review.
+
+5. After approval, merge your branch into the main branch.
+
+### Commit Message Guidelines
+
+- Use present tense ("Add feature" not "Added feature")
+- Use imperative mood ("Move cursor to..." not "Moves cursor to...")
+- Limit the first line to 72 characters or less
+- Reference issues and pull requests after the first line
+
 ## Development Notes
 
 - The app uses React Navigation for screen transitions
 - The main entry point is index.js which registers the App component
-- App.tsx contains the navigation setup with screens for Login, Instructor Dashboard, Protocol Creation, Follower Dashboard, and Achievements 
+- App.tsx contains the navigation setup with screens for Login, Instructor Dashboard, Protocol Creation, Follower Dashboard, and Achievements
+
+## License
+
+[Specify your license here]
+
+## Contributors
+
+[List of contributors] 
