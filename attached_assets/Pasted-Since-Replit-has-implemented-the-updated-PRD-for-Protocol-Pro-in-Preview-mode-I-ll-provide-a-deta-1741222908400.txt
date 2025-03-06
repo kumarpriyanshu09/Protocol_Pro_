@@ -1,0 +1,243 @@
+Since Replit has implemented the updated PRD for "Protocol Pro" in Preview mode, I’ll provide a detailed breakdown of all the components, features, and visuals as they exist in this initial setup. This will reflect the current state of the app, focusing solely on the Preview mode functionality without backend integrations or external platforms (e.g., Supabase, Vercel). As requested, I’ll mention the frontend stack here, assuming Replit used your preferred tools from earlier discussions—React Native with Expo—tailored for a mobile app in Preview mode. Below is a comprehensive overview of everything implemented, with specifics for each screen, visual, and interaction.
+
+---
+
+# Detailed Breakdown of Protocol Pro (Replit Preview Mode)
+
+**Frontend Stack**:  
+- **React Native**: Core framework for building the mobile UI.  
+- **Expo**: Development environment and tooling for running the app in Preview mode (simulated via Expo Go or Replit’s mobile-like preview).
+
+**Note**: All data is mock/static, and interactions are local to the frontend in Preview mode.
+
+---
+
+## 1. Login Screen
+
+### Description
+The entry point where users input credentials to access their role-specific dashboards.
+
+### Components
+- **Header**: Text "Login to Protocol Pro" (centered, bold, black).  
+- **Form**:  
+  - **Email Input**: Text field with placeholder "Email" (bordered, gray).  
+  - **Password Input**: Secure text field with placeholder "Password" (bordered, gray).  
+- **Buttons**:  
+  - **Login Button**: Blue (#0070f3), labeled "Login".  
+  - **Sign Up Button**: Blue (#0070f3), labeled "Sign Up".  
+- **Link**: "Forgot Password?" (blue, underlined, below buttons).
+
+### Functionality
+- **Mock Authentication**:  
+  - On "Login" or "Sign Up" press, checks email for "instructor" substring (e.g., "instructor@example.com").  
+  - Redirects to:  
+    - Instructor Dashboard if "instructor" detected.  
+    - Follower Dashboard otherwise.  
+- **Preview Behavior**: No real auth; navigation is simulated based on email input.
+
+### Layout
+- Centered vertically and horizontally in a white background.  
+- Inputs: 80% screen width, 10px padding, 1px gray border.  
+- Buttons: Full-width (80%), 10px margin between, rounded corners.  
+- Text/Link: 14px font, blue accent.
+
+---
+
+## 2. Instructor Dashboard
+
+### Description
+The home screen for instructors, showing protocols, follower summaries, and a creation option.
+
+### Components
+- **Header**: Text "Instructor Dashboard" (top, bold, black).  
+- **Protocol List**:  
+  - Mock data:  
+    - "30-Day Fitness Challenge" (2 followers).  
+    - "Mindfulness Week" (1 follower).  
+  - Each item: Title + follower count, clickable (no action yet).  
+- **Follower Summary**:  
+  - **Visual Total**: Text "12 followers at 80%+ completion" (blue, bold).  
+  - Mock list:  
+    - "John - 90%".  
+    - "Jane - 85%".  
+    - "Bob - 60%".  
+- **Button**: "Create Protocol" (blue, #0070f3, bottom).  
+- **Overview Button**: "View Overview" (gray, links to User Overview Screen).
+
+### Functionality
+- **Protocol List**: Displays static protocol names and counts.  
+- **Follower Summary**: Shows mock followers with completion percentages; total updates based on mock data (hardcoded 80%+ threshold).  
+- **Create Protocol**: Navigates to Protocol Creation Screen.  
+- **View Overview**: Navigates to User Overview Screen.
+
+### Layout
+- Vertical stack, white background.  
+- Protocol List: Scrollable, each item in a gray-bordered box (10px padding).  
+- Follower Summary: Below protocols, total in blue box, list in plain text.  
+- Buttons: Full-width (80%), 10px margin, rounded.
+
+---
+
+## 3. Protocol Creation Screen
+
+### Description
+A form where instructors define new protocols with titles and steps.
+
+### Components
+- **Header**: Text "Create Protocol" (top, bold, black).  
+- **Form**:  
+  - **Title Input**: Text field with placeholder "Protocol Title" (e.g., "30-Day Challenge").  
+  - **Step List**:  
+    - Dynamic entries: Text input (e.g., "Run 5K") + checkbox (unchecked by default).  
+    - "Add Step" button (blue, #0070f3, small).  
+  - Mock data: Starts with 1 empty step.  
+- **Button**: "Save" (blue, #0070f3, bottom).
+
+### Functionality
+- **Add Step**: Adds a new text input + checkbox pair to the list.  
+- **Save**: Logs the title and steps to console (e.g., `{ title: "30-Day Challenge", steps: ["Run 5K", "Log Meals"] }`), navigates back to Instructor Dashboard.  
+- **Preview Behavior**: No persistent storage; data is temporary.
+
+### Layout
+- Scrollable vertical stack, white background.  
+- Form: 80% width, inputs with gray borders, 10px padding.  
+- Step List: Each step in a row (text 70%, checkbox 20%), "Add Step" below.  
+- Save Button: Full-width (80%), rounded.
+
+---
+
+## 4. Follower Dashboard
+
+### Description
+The home screen for followers, showing their protocol, tasks, and progress visuals.
+
+### Components
+- **Header**: Text "Follower Dashboard" (top, bold, black).  
+- **Protocol Info**: Text "Current Protocol: 30-Day Fitness Challenge" (mock, static).  
+- **Progress Visualizations**:  
+  - **Bar Chart**: Single blue bar, 50% width (mock completion), labeled "Overall Progress".  
+  - **Line Chart**: 5 points (e.g., 20%, 30%, 40%, 50%, 50%) over "Days 1-5", blue line, labeled "Progress Trend".  
+  - **Apple Screen Time Bar Chart**:  
+    - 3 bars: "Exercise: 75%", "Nutrition: 40%", "Rest: 60%".  
+    - Blue fills, varying heights, labeled below.  
+- **Task List**:  
+  - Mock data:  
+    - "Run 5K" (checkbox).  
+    - "Log Meals" (checkbox).  
+    - "Meditate" (checkbox).  
+- **Overview Button**: "View Overview" (gray, links to User Overview Screen).
+
+### Functionality
+- **Task Completion**: Checking a task updates all visuals:  
+  - Bar Chart: Increases by 10% per task (mock, capped at 100%).  
+  - Line Chart: Adds a new point (e.g., +10% daily).  
+  - Apple Screen Time Chart: Adjusts category bars (e.g., "Exercise" +25% for "Run 5K").  
+- **View Overview**: Navigates to User Overview Screen.  
+- **Preview Behavior**: Updates are local, reset on screen reload.
+
+### Layout
+- Scrollable vertical stack, white background.  
+- Protocol Info: Plain text, 10px padding.  
+- Visuals: Stacked vertically, each in a bordered box (gray, 5px padding):  
+  - Bar Chart: Full-width bar, 20px height.  
+  - Line Chart: 200x100px box, simple line.  
+  - Apple Screen Time: 3 bars side-by-side, 50px height max.  
+- Task List: Each task in a row (text 70%, checkbox 20%).  
+- Button: Full-width (80%), rounded.
+
+---
+
+## 5. User Overview Screen
+
+### Description
+A screen for both roles showing progress insights with "What’s Working" and "Bottlenecks".
+
+### Components (Instructor Version)
+- **Header**: Text "Instructor Overview" (top, bold, black).  
+- **What’s Working**:  
+  - Mock text: "High participation in Exercise tasks (80% completion)".  
+- **Bottlenecks**:  
+  - Mock text: "Week 2 drop-off (30% missed tasks)".  
+- **Button**: "Back to Dashboard" (gray).
+
+### Components (Follower Version)
+- **Header**: Text "My Overview" (top, bold, black).  
+- **What’s Working**:  
+  - Mock text: "Consistent Exercise completion (75%)".  
+- **Bottlenecks**:  
+  - Mock text: "Low Nutrition logging (40%)".  
+- **Button**: "Back to Dashboard" (gray).
+
+### Functionality
+- **Display**: Shows static summaries based on mock data.  
+- **Instructor**: Aggregates across all followers (e.g., averages from dashboard totals).  
+- **Follower**: Reflects individual task completion from dashboard.  
+- **Back**: Returns to respective dashboard.  
+- **Preview Behavior**: No dynamic updates; hardcoded text.
+
+### Layout
+- Vertical stack, white background.  
+- Sections: Each in a gray-bordered box (10px padding), bold titles, plain text.  
+- Button: Full-width (80%), rounded, bottom.
+
+---
+
+## Visuals Breakdown
+
+### Follower Visuals (Follower Dashboard)
+1. **Bar Chart**:  
+   - **Purpose**: Shows overall protocol completion.  
+   - **Details**: Single blue bar (#0070f3), starts at 50%, max 100%, 20px height, percentage label (e.g., "50%").  
+   - **Interaction**: Updates +10% per task checked (mock).  
+
+2. **Line Chart**:  
+   - **Purpose**: Tracks progress trend over time.  
+   - **Details**: Blue line (#0070f3), 5 points (e.g., 20%, 30%, 40%, 50%, 50%), 200x100px box, labeled "Days".  
+   - **Interaction**: Adds +10% point per task checked (mock, resets on reload).  
+
+3. **Apple Screen Time Bar Chart**:  
+   - **Purpose**: Breaks down completion by category.  
+   - **Details**: 3 blue bars (#0070f3), mock values: "Exercise: 75%", "Nutrition: 40%", "Rest: 60%", 50px max height, labels below.  
+   - **Interaction**: Updates specific bars (e.g., +25% to "Exercise" for "Run 5K").  
+
+### Instructor Visuals (Instructor Dashboard)
+1. **Total Followers at 80%+**:  
+   - **Purpose**: Shows how many followers are highly compliant.  
+   - **Details**: Blue text (#0070f3), mock value "12 followers at 80%+ completion", bold, in a box.  
+   - **Interaction**: Static in Preview mode, based on mock follower list (e.g., 2 of 3 above 80%).
+
+---
+
+## Mock Data
+- **Protocols**: "30-Day Fitness Challenge" (3 followers), "Mindfulness Week" (1 follower).  
+- **Followers**: John (90%), Jane (85%), Bob (60%).  
+- **Tasks**: "Run 5K", "Log Meals", "Meditate".  
+- **Categories (Apple Screen Time)**: Exercise (75%), Nutrition (40%), Rest (60%).  
+- **Overview Summaries**:  
+  - Instructor: "High participation" / "Week 2 drop-off".  
+  - Follower: "Consistent Exercise" / "Low Nutrition".
+
+---
+
+## Interactions in Preview Mode
+- **Login**: Email check → dashboard navigation.  
+- **Instructor Dashboard**: "Create Protocol" → Protocol Creation; "View Overview" → User Overview.  
+- **Protocol Creation**: Add steps → save (console log) → back.  
+- **Follower Dashboard**: Check tasks → update bar (50% → 60%), line (add point), Apple Screen Time (category +%) → "View Overview".  
+- **User Overview**: Back to dashboard.
+
+---
+
+## Layout Summary
+- **Style**: White background, blue (#0070f3) accents, gray borders, readable black text (14px default).  
+- **Navigation**: Stack-based, each screen full-height, scrollable if content overflows.  
+- **Responsiveness**: Fits mobile-like Preview window (e.g., 375x667px).
+
+---
+
+### Notes
+- **Preview Mode**: All visuals and data are mock, updated locally via frontend state (e.g., React hooks). No persistence or external calls.  
+- **Frontend Stack**: React Native + Expo ensures mobile compatibility, with Expo’s Preview mode simulating the app.  
+- **Next Steps**: Test all interactions (e.g., task checks update charts), then export to Cursor for backend integration.
+
+Would you like me to suggest tweaks to refine the Preview (e.g., more mock data, visual adjustments) or provide a specific code snippet to enhance a feature in Replit? Let me know what’s next!

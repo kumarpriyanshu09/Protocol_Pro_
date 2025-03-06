@@ -4,10 +4,15 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Animated,
+  Pressable,
 } from 'react-native';
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 import ProgressBar from '../components/ProgressBar';
 import ProgressChart from '../components/charts/ProgressChart';
 import { mockProtocols } from '../data/mockData';
@@ -23,12 +28,72 @@ const categoryProgress = [
 export default function FollowerDashboardScreen() {
   const currentProtocol = mockProtocols[0];
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
+  const [pressedId, setPressedId] = useState<string | null>(null);
 
   const toggleTask = (task: string) => {
     setCompletedTasks(prev => 
       prev.includes(task) 
         ? prev.filter(t => t !== task)
         : [...prev, task]
+    );
+  };
+
+  const renderTask = ({ item, index }: { item: string; index: number }) => {
+    const translateX = new Animated.Value(0);
+
+    const onGestureEvent = (event: PanGestureHandlerGestureEvent) => {
+      const { translationX } = event.nativeEvent;
+      if (translationX <= 0) { // Only allow left swipe
+        translateX.setValue(translationX);
+      }
+    };
+
+    const onHandlerStateChange = (event: PanGestureHandlerGestureEvent) => {
+      if (event.nativeEvent.state === 5) { // END state
+        const { translationX } = event.nativeEvent;
+        if (translationX < -100) { // Threshold for completing task
+          toggleTask(item);
+        }
+        Animated.spring(translateX, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
+
+    return (
+      <PanGestureHandler
+        onGestureEvent={onGestureEvent}
+        onHandlerStateChange={onHandlerStateChange}
+      >
+        <Animated.View style={[
+          styles.taskCard,
+          { transform: [{ translateX }] }
+        ]}>
+          <Pressable
+            onPressIn={() => setPressedId(index.toString())}
+            onPressOut={() => setPressedId(null)}
+            onPress={() => toggleTask(item)}
+            style={({ pressed }) => [
+              styles.taskRow,
+              pressed && styles.taskPressed
+            ]}
+          >
+            <View style={[
+              styles.checkbox,
+              completedTasks.includes(item) && styles.checkboxChecked
+            ]}>
+              {completedTasks.includes(item) && (
+                <View style={styles.checkmark} />
+              )}
+            </View>
+            <Text style={[
+              styles.taskText,
+              completedTasks.includes(item) && styles.taskTextCompleted
+            ]}>{item}</Text>
+          </Pressable>
+        </Animated.View>
+      </PanGestureHandler>
     );
   };
 
@@ -56,30 +121,11 @@ export default function FollowerDashboardScreen() {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Today's Tasks</Text>
+          <Text style={styles.helpText}>Swipe left to complete</Text>
           <FlatList
             data={currentProtocol.steps}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity 
-                style={styles.taskCard}
-                onPress={() => toggleTask(item)}
-              >
-                <View style={styles.taskRow}>
-                  <View style={[
-                    styles.checkbox,
-                    completedTasks.includes(item) && styles.checkboxChecked
-                  ]}>
-                    {completedTasks.includes(item) && (
-                      <View style={styles.checkmark} />
-                    )}
-                  </View>
-                  <Text style={[
-                    styles.taskText,
-                    completedTasks.includes(item) && styles.taskTextCompleted
-                  ]}>{item}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            renderItem={renderTask}
             scrollEnabled={false}
             style={styles.taskList}
           />
@@ -130,18 +176,28 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     marginBottom: 12,
   },
+  helpText: {
+    fontSize: 14,
+    color: '#8E8E93',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
   taskList: {
     flex: 1,
   },
   taskCard: {
     backgroundColor: '#1C1C1E',
-    padding: 16,
     borderRadius: 12,
     marginBottom: 12,
+    overflow: 'hidden',
+  },
+  taskPressed: {
+    backgroundColor: '#2C2C2E',
   },
   taskRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 16,
   },
   checkbox: {
     width: 24,
