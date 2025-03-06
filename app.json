@@ -4,10 +4,24 @@
     "slug": "protocol-pro",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "icon": "./generated-icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#000000"
+    },
     "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./generated-icon.png",
+        "backgroundColor": "#000000"
+      }
+    },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./generated-icon.png"
     }
   }
 }

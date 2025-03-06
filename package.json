@@ -1,14 +1,18 @@
 {
-  "name": "workspace",
+  "name": "protocol-pro",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Protocol Pro - A React Native Expo application for instructors and followers",
   "dependencies": {
     "@expo/metro-runtime": "~3.1.1",
     "@react-navigation/native": "^7.0.15",
