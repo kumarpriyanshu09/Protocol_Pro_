@@ -6,12 +6,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import ProgressBar from '../components/ProgressBar';
+import ProgressChart from '../components/charts/ProgressChart';
 import { mockProtocols } from '../data/mockData';
 
+// Mock data for charts
+const weeklyProgress = [30, 45, 55, 60, 70, 65, 80];
+const categoryProgress = [
+  { category: 'Exercise', progress: 75 },
+  { category: 'Nutrition', progress: 40 },
+  { category: 'Meditation', progress: 60 },
+];
+
 export default function FollowerDashboardScreen() {
-  const currentProtocol = mockProtocols[0]; // Using first protocol as current
+  const currentProtocol = mockProtocols[0];
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
 
   const toggleTask = (task: string) => {
@@ -24,7 +34,7 @@ export default function FollowerDashboardScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.title}>{currentProtocol.title}</Text>
           <View style={styles.progressContainer}>
@@ -35,34 +45,46 @@ export default function FollowerDashboardScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Today's Tasks</Text>
-        <FlatList
-          data={currentProtocol.steps}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity 
-              style={styles.taskCard}
-              onPress={() => toggleTask(item)}
-            >
-              <View style={styles.taskRow}>
-                <View style={[
-                  styles.checkbox,
-                  completedTasks.includes(item) && styles.checkboxChecked
-                ]}>
-                  {completedTasks.includes(item) && (
-                    <View style={styles.checkmark} />
-                  )}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Progress Overview</Text>
+          <Text style={styles.sectionSubtitle}>Weekly Progress</Text>
+          <ProgressChart
+            progressData={weeklyProgress}
+            categoryData={categoryProgress}
+          />
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Today's Tasks</Text>
+          <FlatList
+            data={currentProtocol.steps}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity 
+                style={styles.taskCard}
+                onPress={() => toggleTask(item)}
+              >
+                <View style={styles.taskRow}>
+                  <View style={[
+                    styles.checkbox,
+                    completedTasks.includes(item) && styles.checkboxChecked
+                  ]}>
+                    {completedTasks.includes(item) && (
+                      <View style={styles.checkmark} />
+                    )}
+                  </View>
+                  <Text style={[
+                    styles.taskText,
+                    completedTasks.includes(item) && styles.taskTextCompleted
+                  ]}>{item}</Text>
                 </View>
-                <Text style={[
-                  styles.taskText,
-                  completedTasks.includes(item) && styles.taskTextCompleted
-                ]}>{item}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          style={styles.taskList}
-        />
-      </View>
+              </TouchableOpacity>
+            )}
+            scrollEnabled={false}
+            style={styles.taskList}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -94,11 +116,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
   },
+  section: {
+    marginBottom: 32,
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
     color: '#FFFFFF',
     marginBottom: 16,
+  },
+  sectionSubtitle: {
+    fontSize: 16,
+    color: '#8E8E93',
+    marginBottom: 12,
   },
   taskList: {
     flex: 1,
