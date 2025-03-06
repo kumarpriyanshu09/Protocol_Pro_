@@ -3,4 +3,5 @@ export type RootStackParamList = {
   InstructorDashboard: undefined;
   ProtocolCreation: undefined;
   FollowerDashboard: undefined;
+  Achievements: undefined;
 };

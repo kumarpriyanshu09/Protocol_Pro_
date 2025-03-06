@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import InstructorDashboardScreen from './screens/InstructorDashboardScreen';
 import ProtocolCreationScreen from './screens/ProtocolCreationScreen';
 import FollowerDashboardScreen from './screens/FollowerDashboardScreen';
+import AchievementsScreen from './screens/AchievementsScreen';
 import { RootStackParamList } from './types/navigation';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -51,6 +52,11 @@ export default function App() {
               name="FollowerDashboard"
               component={FollowerDashboardScreen}
               options={{ title: 'Follower Dashboard' }}
+            />
+            <Stack.Screen
+              name="Achievements"
+              component={AchievementsScreen}
+              options={{ title: 'Achievements' }}
             />
           </Stack.Navigator>
         </NavigationContainer>

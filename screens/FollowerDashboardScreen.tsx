@@ -8,6 +8,7 @@ import {
   ScrollView,
   Animated,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {
   PanGestureHandler,
@@ -16,6 +17,8 @@ import {
 import ProgressBar from '../components/ProgressBar';
 import ProgressChart from '../components/charts/ProgressChart';
 import { mockProtocols } from '../data/mockData';
+import { Props } from '../types';
+
 
 // Mock data for charts
 const weeklyProgress = [30, 45, 55, 60, 70, 65, 80];
@@ -25,14 +28,14 @@ const categoryProgress = [
   { category: 'Meditation', progress: 60 },
 ];
 
-export default function FollowerDashboardScreen() {
+export default function FollowerDashboardScreen({ navigation }: Props) {
   const currentProtocol = mockProtocols[0];
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [pressedId, setPressedId] = useState<string | null>(null);
 
   const toggleTask = (task: string) => {
-    setCompletedTasks(prev => 
-      prev.includes(task) 
+    setCompletedTasks(prev =>
+      prev.includes(task)
         ? prev.filter(t => t !== task)
         : [...prev, task]
     );
@@ -99,7 +102,7 @@ export default function FollowerDashboardScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.content}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={true}
@@ -134,6 +137,12 @@ export default function FollowerDashboardScreen() {
             ))}
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.achievementsButton}
+          onPress={() => navigation.navigate('Achievements')}
+        >
+          <Text style={styles.achievementsButtonText}>View Achievements</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -236,5 +245,17 @@ const styles = StyleSheet.create({
   taskTextCompleted: {
     opacity: 0.6,
     textDecorationLine: 'line-through',
+  },
+  achievementsButton: {
+    backgroundColor: '#1C1C1E',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  achievementsButtonText: {
+    color: '#0A84FF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
