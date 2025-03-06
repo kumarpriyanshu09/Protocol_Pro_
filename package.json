@@ -1,11 +1,11 @@
 {
   "name": "protocol-pro",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,22 +14,27 @@
   "license": "ISC",
   "description": "Protocol Pro - A React Native Expo application for instructors and followers",
   "dependencies": {
-    "@expo/metro-runtime": "~3.1.1",
-    "@react-navigation/native": "^7.0.15",
-    "@react-navigation/stack": "^7.1.2",
-    "@types/react": "~18.2.45",
-    "@types/react-native": "^0.73.0",
-    "expo": "^50.0.0",
-    "expo-status-bar": "^2.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-native": "^0.73.2",
+    "@expo/metro-runtime": "~4.0.1",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/stack": "^6.3.20",
+    "expo": "~52.0.0",
+    "expo-status-bar": "~2.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.7",
     "react-native-chart-kit": "^6.12.0",
-    "react-native-gesture-handler": "^2.24.0",
-    "react-native-safe-area-context": "^5.3.0",
-    "react-native-screens": "^4.9.1",
-    "react-native-svg": "^15.11.2",
-    "react-native-web": "^0.19.13",
-    "typescript": "^5.8.2"
-  }
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.8.0",
+    "react-native-web": "~0.19.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@types/react": "~18.3.12",
+    "expo-doctor": "^1.1.6",
+    "typescript": "^5.3.0"
+  },
+  "private": true
 }

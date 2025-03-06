@@ -7,21 +7,37 @@
     "icon": "./generated-icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
+      "image": "./generated-icon.png",
+      "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.protocolpro.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./generated-icon.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "com.protocolpro.app"
     },
     "web": {
       "bundler": "metro",
       "favicon": "./generated-icon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "protocol-pro"
+      }
+    },
+    "sdkVersion": "52.0.0",
+    "plugins": [],
+    "experiments": {
+      "tsconfigPaths": true,
+      "typedRoutes": true
+    },
+    "newArchEnabled": true
   }
 }
