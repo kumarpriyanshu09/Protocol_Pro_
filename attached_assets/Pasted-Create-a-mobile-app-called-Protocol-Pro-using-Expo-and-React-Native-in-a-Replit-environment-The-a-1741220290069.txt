@@ -1,0 +1,54 @@
+Create a mobile app called "Protocol Pro" using Expo and React Native in a Replit environment. The app connects instructors and followers for protocol creation and progress tracking. Use a minimal setup with navigation and basic screens for an MVP. Structure it as follows:
+
+1. **Project Setup**:
+   - Initialize an Expo project with TypeScript (`expo init -t expo-template-blank-typescript`).
+   - Install dependencies: `@react-navigation/native`, `@react-navigation/stack`, `expo-status-bar`.
+   - Configure a Node.js Replit with Expo CLI.
+
+2. **Folder Structure**:
+   - `App.tsx`: Entry point with navigation.
+   - `screens/`:
+     - `LoginScreen.tsx`: Login form.
+     - `InstructorDashboardScreen.tsx`: Instructor home.
+     - `ProtocolCreationScreen.tsx`: Protocol creation form.
+     - `FollowerDashboardScreen.tsx`: Follower home.
+   - `components/`:
+     - `ProgressBar.tsx`: Simple progress bar.
+
+3. **App.tsx**:
+   - Set up a stack navigator with screens: Login, InstructorDashboard, ProtocolCreation, FollowerDashboard.
+   - Use a basic theme (blue #0070f3, white background).
+
+4. **LoginScreen.tsx**:
+   - Form with email and password inputs, "Login" and "Sign Up" buttons.
+   - Simulate auth with a mock function (logs role: "instructor" or "follower") and navigate to respective dashboard.
+   - Style with basic React Native styles (blue buttons, centered layout).
+
+5. **InstructorDashboardScreen.tsx**:
+   - Header: "Instructor Dashboard".
+   - List: 2 mock protocols (e.g., "30-Day Challenge").
+   - Button: "Create Protocol" (navigates to ProtocolCreationScreen).
+   - List: 3 mock followers (e.g., "John - 50%").
+   - Style with flexbox and blue accents.
+
+6. **ProtocolCreationScreen.tsx**:
+   - Form: Title input, dynamic step list (text input + checkbox), "Save" button.
+   - Save logs to console and returns to InstructorDashboard.
+   - Style with a scrollable view.
+
+7. **FollowerDashboardScreen.tsx**:
+   - Header: "Follower Dashboard".
+   - Text: Current protocol (e.g., "30-Day Challenge").
+   - Custom ProgressBar component showing 50% (static).
+   - List: 3 mock tasks with checkboxes (e.g., "Run 5K").
+   - Style with flexbox.
+
+8. **ProgressBar.tsx**:
+   - Simple component with a blue fill bar (width based on percentage prop).
+   - Style with View and basic styles.
+
+9. **Run Instructions**:
+   - Add a `.replit` file with `run = "npx expo start"`.
+   - Ensure it works with Expo Go for mobile testing.
+
+Generate the app with mock data and basic navigation. Keep it lightweight for Replit. Include comments explaining each file’s purpose. The goal is a base structure to customize later in Cursor.
