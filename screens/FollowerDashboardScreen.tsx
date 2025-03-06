@@ -99,7 +99,11 @@ export default function FollowerDashboardScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.content}>
+      <ScrollView 
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={true}
+      >
         <View style={styles.header}>
           <Text style={styles.title}>{currentProtocol.title}</Text>
           <View style={styles.progressContainer}>
@@ -122,13 +126,13 @@ export default function FollowerDashboardScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Today's Tasks</Text>
           <Text style={styles.helpText}>Swipe left to complete</Text>
-          <FlatList
-            data={currentProtocol.steps}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderTask}
-            scrollEnabled={false}
-            style={styles.taskList}
-          />
+          <View style={styles.taskListContainer}>
+            {currentProtocol.steps.map((item, index) => (
+              <View key={index} style={styles.taskWrapper}>
+                {renderTask({ item, index })}
+              </View>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -142,7 +146,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  contentContainer: {
     padding: 20,
+    paddingBottom: 40,
   },
   header: {
     marginBottom: 32,
@@ -182,13 +189,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: 'center',
   },
-  taskList: {
-    flex: 1,
+  taskListContainer: {
+    width: '100%',
+  },
+  taskWrapper: {
+    width: '100%',
+    marginBottom: 12,
   },
   taskCard: {
     backgroundColor: '#1C1C1E',
     borderRadius: 12,
-    marginBottom: 12,
     overflow: 'hidden',
   },
   taskPressed: {
