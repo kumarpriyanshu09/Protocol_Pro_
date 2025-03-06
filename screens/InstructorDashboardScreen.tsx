@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/navigation';
 import { mockProtocols, mockFollowers } from '../data/mockData';
@@ -11,60 +18,91 @@ type Props = {
 
 export default function InstructorDashboardScreen({ navigation }: Props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Your Protocols</Text>
-        <FlatList
-          data={mockProtocols}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <ProgressBar progress={item.progress} />
-              <Text style={styles.progressText}>{item.progress}% Complete</Text>
-            </View>
-          )}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('ProtocolCreation')}
-        >
-          <Text style={styles.buttonText}>Create New Protocol</Text>
-        </TouchableOpacity>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Your Protocols</Text>
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={() => navigation.navigate('ProtocolCreation')}
+            >
+              <Text style={styles.createButtonText}>Create New</Text>
+            </TouchableOpacity>
+          </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Followers</Text>
-        <FlatList
-          data={mockFollowers}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.followerCard}>
-              <Text style={styles.followerName}>{item.name}</Text>
-              <ProgressBar progress={item.progress} />
-              <Text style={styles.progressText}>{item.progress}% Complete</Text>
-            </View>
-          )}
-        />
+          <FlatList
+            data={mockProtocols}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.card}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <View style={styles.progressContainer}>
+                  <ProgressBar progress={item.progress} />
+                  <Text style={styles.progressText}>{item.progress}% Complete</Text>
+                </View>
+                <Text style={styles.stepsCount}>{item.steps.length} steps</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Active Followers</Text>
+          <FlatList
+            data={mockFollowers}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.followerCard}>
+                <View style={styles.followerHeader}>
+                  <Text style={styles.followerName}>{item.name}</Text>
+                  <Text style={styles.progressText}>{item.progress}%</Text>
+                </View>
+                <ProgressBar progress={item.progress} />
+              </View>
+            )}
+          />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#000000',
   },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
   section: {
-    marginBottom: 24,
+    marginBottom: 32,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 22,
     fontWeight: '600',
     color: '#FFFFFF',
-    marginBottom: 16,
+  },
+  createButton: {
+    backgroundColor: '#0A84FF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  createButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
   },
   card: {
     backgroundColor: '#1C1C1E',
@@ -74,26 +112,22 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#FFFFFF',
     marginBottom: 12,
+  },
+  progressContainer: {
+    marginBottom: 8,
   },
   progressText: {
     color: '#8E8E93',
     fontSize: 14,
     marginTop: 8,
   },
-  button: {
-    backgroundColor: '#0A84FF',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+  stepsCount: {
+    color: '#8E8E93',
+    fontSize: 12,
+    marginTop: 4,
   },
   followerCard: {
     backgroundColor: '#1C1C1E',
@@ -101,9 +135,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 12,
   },
+  followerHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   followerName: {
     fontSize: 16,
+    fontWeight: '500',
     color: '#FFFFFF',
-    marginBottom: 12,
   },
 });
