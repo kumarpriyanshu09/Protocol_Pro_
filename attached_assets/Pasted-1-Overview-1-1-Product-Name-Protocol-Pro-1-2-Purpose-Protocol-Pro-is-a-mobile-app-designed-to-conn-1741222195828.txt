@@ -1,0 +1,91 @@
+1. Overview
+1.1 Product Name
+Protocol Pro
+
+1.2 Purpose
+Protocol Pro is a mobile app designed to connect instructors with their followers, enabling the creation of personalized protocols and tracking of progress. In its initial Replit Preview mode setup, it provides a foundational structure for users to log in, manage protocols, and monitor progress, serving as a starting point for further development.
+
+1.3 Target Audience
+Instructors: Individuals who create and oversee structured protocols for others.
+Followers: Users who follow these protocols and track their progress.
+1.4 Goals
+Establish a basic mobile app framework with core navigation and screens.
+Enable instructors to create and view protocols.
+Allow followers to track progress within a protocol.
+Provide a functional prototype in Preview mode for iterative enhancement.
+2. Key Features (Initial Setup in Preview Mode)
+2.1 Login Screen
+A form for users to enter credentials and access the app.
+Differentiates between instructor and follower roles, directing them to respective home screens.
+2.2 Instructor Dashboard
+A home screen displaying:
+A list of existing protocols created by the instructor.
+A summary of followers enrolled in protocols.
+Option to initiate the creation of a new protocol.
+2.3 Protocol Creation Screen
+A form to define a new protocol, including:
+A title for the protocol.
+A list of steps with descriptions and completion markers.
+Ability to save the protocol and return to the dashboard.
+2.4 Follower Dashboard
+A home screen showing:
+The current protocol the follower is enrolled in.
+A progress indicator reflecting task completion.
+A list of tasks with options to mark them as complete.
+3. User Stories
+3.1 Login Screen
+As a new or returning user, I want to enter my credentials so I can access my personalized dashboard based on my role (instructor or follower).
+3.2 Instructor Dashboard
+As an instructor, I want to see a list of my protocols so I can manage them effectively.
+As an instructor, I want to view my followers’ progress so I can monitor their engagement.
+As an instructor, I want to start creating a new protocol so I can guide my followers.
+3.3 Protocol Creation Screen
+As an instructor, I want to define a protocol with a title and steps so I can structure a plan for my followers.
+As an instructor, I want to save my protocol so it’s available for followers to access.
+3.4 Follower Dashboard
+As a follower, I want to see my current protocol and tasks so I can follow the plan.
+As a follower, I want to mark tasks as complete so I can track my progress.
+As a follower, I want to view a progress indicator so I can visualize my achievements.
+4. Functional Requirements
+4.1 Platform
+Mobile app running in Preview mode, accessible via a mobile interface.
+4.2 Core Functionality
+Login Screen:
+Input fields for credentials.
+Buttons for login and sign-up actions.
+Role-based navigation to dashboards.
+Instructor Dashboard:
+Display of protocol list and follower summary.
+Button to navigate to protocol creation.
+Protocol Creation Screen:
+Form with title input and dynamic step addition.
+Save functionality to store the protocol.
+Follower Dashboard:
+Display of current protocol, progress indicator, and task list.
+Interactive task completion markers updating progress.
+4.3 Non-Functional Requirements
+Usability: Simple, intuitive navigation between screens.
+Performance: Smooth transitions and updates in Preview mode.
+Design: Consistent layout with a blue accent color and clear typography.
+5. User Journey (Preview Mode)
+Instructor Journey
+Login: Enters credentials, identified as an instructor, directed to Instructor Dashboard.
+Dashboard Overview: Views existing protocols and followers, decides to create a new protocol.
+Protocol Creation: Enters a title, adds steps, saves the protocol, returns to dashboard.
+Monitoring: Reviews follower summaries on the dashboard.
+Follower Journey
+Login: Enters credentials, identified as a follower, directed to Follower Dashboard.
+Protocol Engagement: Views current protocol and tasks, marks tasks as complete.
+Progress Tracking: Observes progress indicator update as tasks are completed.
+6. Success Metrics
+Completion: All screens (Login, Instructor Dashboard, Protocol Creation, Follower Dashboard) are functional in Preview mode.
+Navigation: Users can move between screens seamlessly.
+Interaction: Protocol creation saves data, and task completion updates progress visibly.
+Stability: No crashes or freezes during basic use in Preview mode.
+7. Assumptions and Constraints
+7.1 Assumptions
+Users can access the app in Preview mode on a mobile-like interface.
+Initial data (protocols, followers) is mocked or locally stored for demonstration.
+7.2 Constraints
+Limited to Preview mode functionality—no external integrations or persistent storage yet.
+Basic features only, with enhancements planned for later development stages.

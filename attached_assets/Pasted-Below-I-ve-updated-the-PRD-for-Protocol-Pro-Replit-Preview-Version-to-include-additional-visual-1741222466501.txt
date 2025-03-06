@@ -1,0 +1,181 @@
+Below, I’ve updated the PRD for "Protocol Pro" (Replit Preview Version) to include additional visualization features for both followers and instructors, as well as the missing "User Overview" sections ("What's Working" and "Bottlenecks") that were part of your original vision but absent from the Replit-specific PRD. These additions enhance the app’s ability to provide actionable insights and progress tracking in Preview mode, using mock data for now. I’ve incorporated specific visual types—bar charts, line charts, and an Apple Screen Time-style bar chart—as requested, along with instructor-specific totals (e.g., followers at 80% protocol completion). The focus remains on functionality within Replit’s Preview mode, without tech stack references.
+
+---
+
+# Product Requirements Document (PRD)  
+## Protocol Pro (Replit Preview Version)  
+**Version**: 1.1  
+**Date**: March 05, 2025  
+**Author**: [Your Name] (with assistance from Grok 3, xAI)
+
+---
+
+## 1. Overview
+
+### 1.1 Product Name
+Protocol Pro
+
+### 1.2 Purpose
+Protocol Pro is a mobile app designed to connect instructors with their followers, enabling the creation of personalized protocols and tracking of progress with rich visualizations. In its Replit Preview mode setup, it provides a foundational structure with login, dashboards, protocol creation, and enhanced visual feedback to demonstrate progress and insights.
+
+### 1.3 Target Audience
+- **Instructors**: Individuals who create and oversee structured protocols, seeking detailed follower progress insights.  
+- **Followers**: Users who follow protocols, aiming to visualize and understand their progress effectively.
+
+### 1.4 Goals
+- Deliver a mobile app prototype with core navigation and interactive screens.  
+- Enable instructors to create protocols and monitor follower progress with visual totals.  
+- Provide followers with diverse progress visualizations (bar, line, Apple Screen Time-style charts).  
+- Include overview sections to highlight successes and challenges for both roles.
+
+---
+
+## 2. Key Features (Initial Setup in Preview Mode)
+
+### 2.1 Login Screen
+- A form for users to enter credentials and access the app.  
+- Differentiates between instructor and follower roles, directing them to respective dashboards.
+
+### 2.2 Instructor Dashboard
+- A home screen displaying:  
+  - A list of existing protocols created by the instructor.  
+  - A summary of followers enrolled in protocols.  
+  - **Visual Totals**: Number of followers currently following 80% or more of the protocol (e.g., "12 followers at 80%+ completion").  
+- Option to initiate the creation of a new protocol.
+
+### 2.3 Protocol Creation Screen
+- A form to define a new protocol, including:  
+  - A title for the protocol.  
+  - A list of steps with descriptions and completion markers.  
+- Ability to save the protocol and return to the dashboard.
+
+### 2.4 Follower Dashboard
+- A home screen showing:  
+  - The current protocol the follower is enrolled in.  
+  - **Progress Visualizations**:  
+    - **Bar Chart**: Displays overall completion percentage (e.g., one bar at 50%).  
+    - **Line Chart**: Shows progress trend over time (e.g., daily completion points).  
+    - **Apple Screen Time Bar Chart**: Breaks down task completion by specific categories (e.g., "Exercise: 75%", "Nutrition: 40%").  
+  - A list of tasks with options to mark them as complete.
+
+### 2.5 User Overview Screen (Instructor & Follower)
+- A dedicated screen for both roles, accessible from their dashboards, with:  
+  - **What’s Working Section**: Highlights areas of success (e.g., "Consistent task completion").  
+  - **Bottlenecks Section**: Identifies challenges (e.g., "Missed tasks in week 2").  
+- **Instructor Version**: Aggregates data across all followers per protocol.  
+- **Follower Version**: Focuses on individual progress within their protocol.
+
+---
+
+## 3. User Stories
+
+### 3.1 Login Screen
+- *As a new or returning user*, I want to enter my credentials so I can access my personalized dashboard based on my role.
+
+### 3.2 Instructor Dashboard
+- *As an instructor*, I want to see a list of my protocols so I can manage them effectively.  
+- *As an instructor*, I want to view a total of followers at 80%+ protocol completion so I can gauge overall success.  
+- *As an instructor*, I want to start creating a new protocol so I can guide my followers.
+
+### 3.3 Protocol Creation Screen
+- *As an instructor*, I want to define a protocol with a title and steps so I can structure a plan for my followers.  
+- *As an instructor*, I want to save my protocol so it’s available for followers to access.
+
+### 3.4 Follower Dashboard
+- *As a follower*, I want to see my current protocol and tasks so I can follow the plan.  
+- *As a follower*, I want to mark tasks as complete so I can track my progress.  
+- *As a follower*, I want to view a bar chart of my overall progress so I can see my completion percentage at a glance.  
+- *As a follower*, I want to view a line chart of my progress over time so I can track trends.  
+- *As a follower*, I want an Apple Screen Time-style bar chart to see task completion by category so I can identify strengths and weaknesses.
+
+### 3.5 User Overview Screen
+- *As an instructor*, I want an overview showing what’s working and bottlenecks across my followers so I can adjust my protocols.  
+- *As a follower*, I want an overview showing what’s working and bottlenecks in my progress so I can improve my adherence.
+
+---
+
+## 4. Functional Requirements
+
+### 4.1 Platform
+- Mobile app running in Preview mode, accessible via a mobile-like interface.
+
+### 4.2 Core Functionality
+- **Login Screen**:  
+  - Input fields for credentials.  
+  - Buttons for login and sign-up actions.  
+  - Role-based navigation to dashboards.  
+- **Instructor Dashboard**:  
+  - Display of protocol list and follower summary.  
+  - Visual total of followers at 80%+ completion (mock data, e.g., text or number).  
+  - Button to navigate to protocol creation.  
+- **Protocol Creation Screen**:  
+  - Form with title input and dynamic step addition (text + completion marker).  
+  - Save functionality to store the protocol locally.  
+- **Follower Dashboard**:  
+  - Display of current protocol and task list.  
+  - **Bar Chart**: Single bar showing total completion (e.g., 50%, updated on task completion).  
+  - **Line Chart**: Points plotting completion over time (e.g., daily mock data).  
+  - **Apple Screen Time Bar Chart**: Multiple bars for task categories (e.g., "Exercise," "Nutrition") with mock percentages.  
+  - Interactive task completion markers updating all visuals.  
+- **User Overview Screen**:  
+  - Two sections: "What’s Working" and "Bottlenecks" with mock text summaries (e.g., "High exercise adherence," "Low nutrition logging").  
+  - Accessible via a button or tab from dashboards.
+
+### 4.3 Non-Functional Requirements
+- **Usability**: Intuitive navigation and clear visual hierarchy.  
+- **Performance**: Smooth rendering of charts and updates in Preview mode.  
+- **Design**: Blue accent color (#0070f3) for charts/buttons, white background, readable text.
+
+---
+
+## 5. User Journey (Preview Mode)
+
+### Instructor Journey
+1. **Login**: Enters credentials, identified as an instructor, directed to Instructor Dashboard.  
+2. **Dashboard Overview**: Views protocols, sees "12 followers at 80%+ completion," decides to create a new protocol or check progress.  
+3. **Protocol Creation**: Enters a title, adds steps, saves, returns to dashboard.  
+4. **User Overview**: Accesses overview, sees "What’s Working" (e.g., "High participation") and "Bottlenecks" (e.g., "Week 2 drop-off").
+
+### Follower Journey
+1. **Login**: Enters credentials, identified as a follower, directed to Follower Dashboard.  
+2. **Protocol Engagement**: Views protocol, marks tasks complete, sees bar chart (50%), line chart (trend), and Apple Screen Time chart (category breakdown).  
+3. **User Overview**: Accesses overview, sees "What’s Working" (e.g., "Exercise consistency") and "Bottlenecks" (e.g., "Nutrition gaps").
+
+---
+
+## 6. Success Metrics
+- **Completion**: All screens and visuals (bar, line, Apple Screen Time charts) render correctly in Preview mode.  
+- **Interaction**: Task completion updates all charts and totals dynamically.  
+- **Navigation**: Seamless transitions between dashboards and User Overview.  
+- **Clarity**: Visuals and overview sections are easy to interpret with mock data.
+
+---
+
+## 7. Assumptions and Constraints
+### 7.1 Assumptions
+- Mock data suffices for charts and totals in Preview mode (e.g., static follower counts, progress percentages).  
+- Users can interact with the app in a mobile-like Preview interface.
+
+### 7.2 Constraints
+- Limited to Preview mode—no persistent storage or real data integration yet.  
+- Visuals use hardcoded or locally generated data for demonstration.
+
+---
+
+## 8. Next Steps
+1. Test visuals and navigation in Preview mode (e.g., chart updates, overview readability).  
+2. Refine mock data to simulate realistic scenarios (e.g., multiple protocols, varied progress).  
+3. Export for further development with additional features (e.g., feedback, notifications).
+
+---
+
+### Notes
+- **Visual Features Added**:  
+  - **Bar Chart**: Simple, single-bar progress for followers.  
+  - **Line Chart**: Time-based trend for followers.  
+  - **Apple Screen Time Bar Chart**: Multi-bar breakdown by category, inspired by Apple’s design.  
+  - **Instructor Totals**: Percentage-based follower completion metric (80%+ threshold).  
+- **User Overview**: Added as a new screen with "What’s Working" and "Bottlenecks" for both roles, using mock summaries.  
+- **Preview Mode**: All visuals and data are static or locally updated—no external dependencies.
+
+Would you like me to provide mock data examples for the charts or tweak any section (e.g., more visual types)? Let me know how to assist further as you work in Replit!
