@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useCallback, memo } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
+import { NotificationState } from '../types';
 
 interface NotificationToastProps {
   message: string;
@@ -13,12 +14,20 @@ interface NotificationToastProps {
   onDismiss: () => void;
 }
 
-export default function NotificationToast({ 
+const NotificationToast: React.FC<NotificationToastProps> = ({ 
   message, 
   isVisible, 
   onDismiss 
-}: NotificationToastProps) {
-  const translateY = new Animated.Value(-100);
+}) => {
+  const translateY = useRef(new Animated.Value(-100)).current;
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleDismiss = useCallback(() => {
+    Animated.spring(translateY, {
+      toValue: -100,
+      useNativeDriver: true,
+    }).start(() => onDismiss());
+  }, [onDismiss, translateY]);
 
   useEffect(() => {
     if (isVisible) {
@@ -28,20 +37,17 @@ export default function NotificationToast({
       }).start();
 
       // Auto dismiss after 3 seconds
-      const timer = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         handleDismiss();
       }, 3000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+      };
     }
-  }, [isVisible]);
-
-  const handleDismiss = () => {
-    Animated.spring(translateY, {
-      toValue: -100,
-      useNativeDriver: true,
-    }).start(() => onDismiss());
-  };
+  }, [isVisible, handleDismiss]);
 
   if (!isVisible) return null;
 
@@ -60,7 +66,7 @@ export default function NotificationToast({
       </View>
     </Animated.View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -99,3 +105,5 @@ const styles = StyleSheet.create({
     padding: 4,
   },
 });
+
+export default memo(NotificationToast);
