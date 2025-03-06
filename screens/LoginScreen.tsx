@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/navigation';
 
@@ -21,86 +29,111 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Protocol Pro</Text>
-      <Text style={styles.subtitle}>
-        {isLogin ? 'Welcome Back!' : 'Create Account'}
-      </Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>
-          {isLogin ? 'Login' : 'Sign Up'}
-        </Text>
-      </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Protocol Pro</Text>
+          <Text style={styles.subtitle}>Welcome back!</Text>
+        </View>
 
-      <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-        <Text style={styles.switchText}>
-          {isLogin ? 'Need an account? Sign Up' : 'Have an account? Login'}
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <View style={styles.form}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#8E8E93"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#8E8E93"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+          </View>
+
+          <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+            <Text style={styles.loginButtonText}>Sign In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
+            <Text style={styles.switchText}>
+              Don't have an account? <Text style={styles.switchTextHighlight}>Create one</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#000000',
+  },
+  content: {
+    flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 40,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#0070f3',
+    color: '#FFFFFF',
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 18,
-    marginBottom: 20,
-    color: '#666',
+    color: '#8E8E93',
+  },
+  form: {
+    width: '100%',
+  },
+  inputContainer: {
+    marginBottom: 16,
+    borderRadius: 12,
+    backgroundColor: '#1C1C1E',
+    overflow: 'hidden',
   },
   input: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
+    height: 56,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#FFFFFF',
   },
-  button: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#0070f3',
-    borderRadius: 8,
+  loginButton: {
+    height: 56,
+    backgroundColor: '#0A84FF',
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
+    marginTop: 8,
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  loginButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
   },
   switchText: {
-    color: '#0070f3',
+    color: '#8E8E93',
     fontSize: 14,
+    textAlign: 'center',
+    marginTop: 16,
+  },
+  switchTextHighlight: {
+    color: '#0A84FF',
   },
 });

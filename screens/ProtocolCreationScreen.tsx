@@ -47,6 +47,7 @@ export default function ProtocolCreationScreen({ navigation }: Props) {
         value={title}
         onChangeText={setTitle}
         placeholder="Enter protocol title"
+        placeholderTextColor="#8E8E93"
       />
 
       <Text style={styles.label}>Steps</Text>
@@ -57,6 +58,7 @@ export default function ProtocolCreationScreen({ navigation }: Props) {
           value={step.text}
           onChangeText={(text) => updateStep(step.id, text)}
           placeholder="Enter step description"
+          placeholderTextColor="#8E8E93"
         />
       ))}
 
@@ -78,40 +80,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#000000',
   },
   label: {
     fontSize: 16,
     fontWeight: '500',
-    marginBottom: 10,
+    color: '#FFFFFF',
+    marginBottom: 12,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
+    backgroundColor: '#1C1C1E',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    fontSize: 16,
+    color: '#FFFFFF',
   },
   addButton: {
-    backgroundColor: '#f5f5f5',
-    padding: 15,
-    borderRadius: 8,
+    backgroundColor: '#1C1C1E',
+    padding: 16,
+    borderRadius: 12,
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 16,
   },
   addButtonText: {
-    color: '#0070f3',
+    color: '#0A84FF',
+    fontSize: 16,
     fontWeight: '500',
   },
   saveButton: {
-    backgroundColor: '#0070f3',
-    padding: 15,
-    borderRadius: 8,
+    backgroundColor: '#0A84FF',
+    padding: 16,
+    borderRadius: 12,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
   saveButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
