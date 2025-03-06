@@ -12,6 +12,7 @@ import AchievementsScreen from './screens/AchievementsScreen';
 import { RootStackParamList } from './types/navigation';
 import { TaskProvider } from './context/TaskContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import './i18n/config';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
