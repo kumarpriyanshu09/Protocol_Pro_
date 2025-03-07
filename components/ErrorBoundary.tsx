@@ -2,7 +2,22 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface Props {
+  /**
+   * The child components to be rendered and monitored for errors.
+   */
   children: ReactNode;
+  
+  /**
+   * Optional custom fallback component to render when an error occurs.
+   * If not provided, the default error UI will be used.
+   */
+  fallback?: ReactNode;
+  
+  /**
+   * Optional callback function that will be called when an error is caught.
+   * Useful for logging errors to an external service.
+   */
+  onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
 interface State {
@@ -11,6 +26,17 @@ interface State {
   errorInfo: ErrorInfo | null;
 }
 
+/**
+ * ErrorBoundary component that catches JavaScript errors in its child component tree,
+ * logs those errors, and displays a fallback UI instead of crashing the whole app.
+ * 
+ * Usage:
+ * ```tsx
+ * <ErrorBoundary>
+ *   <YourComponent />
+ * </ErrorBoundary>
+ * ```
+ */
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -35,7 +61,12 @@ class ErrorBoundary extends Component<Props, State> {
       errorInfo
     });
     
-    // In a real app, you might log the error to a service
+    // Call the onError callback if provided
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
+    }
+    
+    // Log the error to console
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
   }
 
@@ -49,13 +80,36 @@ class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (this.state.hasError) {
+      // If a custom fallback is provided, use it
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+      
+      // Otherwise, use the default error UI
       return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Something went wrong</Text>
+        <View 
+          style={styles.container}
+          accessible={true}
+          accessibilityRole="alert"
+          accessibilityLiveRegion="assertive"
+        >
+          <Text 
+            style={styles.title}
+            accessibilityRole="header"
+          >
+            Something went wrong
+          </Text>
           <Text style={styles.message}>
             {this.state.error?.toString() || 'An unexpected error occurred'}
           </Text>
-          <TouchableOpacity style={styles.button} onPress={this.resetError}>
+          <TouchableOpacity 
+            style={styles.button} 
+            onPress={this.resetError}
+            accessible={true}
+            accessibilityLabel="Try Again button"
+            accessibilityRole="button"
+            accessibilityHint="Attempt to recover from the error"
+          >
             <Text style={styles.buttonText}>Try Again</Text>
           </TouchableOpacity>
         </View>

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './screens/LoginScreen';
 import InstructorDashboardScreen from './screens/InstructorDashboardScreen';
@@ -16,9 +16,49 @@ import './i18n/config';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+/**
+ * Custom error handler function that could be connected to an error logging service
+ * like Sentry, Firebase Crashlytics, or a custom backend endpoint.
+ */
+const handleError = (error: Error, errorInfo: React.ErrorInfo) => {
+  // In a production app, you would send this to an error reporting service
+  console.error('Application Error:', error);
+  console.error('Error Info:', errorInfo);
+  
+  // Example of how you might log to a service:
+  // logErrorToService({
+  //   error: error.toString(),
+  //   componentStack: errorInfo.componentStack,
+  //   timestamp: new Date().toISOString(),
+  // });
+};
+
+/**
+ * Custom fallback UI for critical app-level errors
+ */
+const AppErrorFallback = ({ resetError }: { resetError: () => void }) => (
+  <View style={styles.errorContainer}>
+    <Text style={styles.errorTitle}>App Error</Text>
+    <Text style={styles.errorMessage}>
+      We're sorry, but the app has encountered a critical error.
+    </Text>
+    <TouchableOpacity 
+      style={styles.errorButton} 
+      onPress={resetError}
+      accessible={true}
+      accessibilityLabel="Restart app"
+      accessibilityRole="button"
+    >
+      <Text style={styles.errorButtonText}>Restart App</Text>
+    </TouchableOpacity>
+  </View>
+);
+
 export default function App() {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary 
+      onError={handleError}
+    >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={{ flex: 1, backgroundColor: '#000000' }}>
           <StatusBar style="light" />
@@ -71,3 +111,38 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+const styles = StyleSheet.create({
+  errorContainer: {
+    flex: 1,
+    backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 16,
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: '#8E8E93',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  errorButton: {
+    backgroundColor: '#0A84FF',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 300,
+  },
+  errorButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});

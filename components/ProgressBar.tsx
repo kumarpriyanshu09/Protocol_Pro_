@@ -2,13 +2,42 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 interface ProgressBarProps {
+  /**
+   * The progress value between 0 and 100
+   */
   progress: number;
+  
+  /**
+   * Optional label for accessibility
+   */
+  accessibilityLabel?: string;
 }
 
-export default function ProgressBar({ progress }: ProgressBarProps) {
+/**
+ * A progress bar component that visually represents completion progress.
+ * 
+ * @param progress - A number between 0 and 100 representing the progress percentage
+ * @param accessibilityLabel - Optional custom accessibility label
+ */
+export default function ProgressBar({ 
+  progress, 
+  accessibilityLabel 
+}: ProgressBarProps) {
+  // Ensure progress is between 0 and 100
+  const clampedProgress = Math.min(Math.max(0, progress), 100);
+  
   return (
-    <View style={styles.container}>
-      <View style={[styles.bar, { width: `${progress}%` }]} />
+    <View 
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="progressbar"
+      accessibilityLabel={accessibilityLabel || `Progress: ${clampedProgress}%`}
+      accessibilityValue={{ min: 0, max: 100, now: clampedProgress }}
+    >
+      <View 
+        style={[styles.bar, { width: `${clampedProgress}%` }]}
+        testID="progress-bar"
+      />
     </View>
   );
 }

@@ -46,6 +46,12 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               onChangeText={setEmail}
               autoCapitalize="none"
               keyboardType="email-address"
+              accessible={true}
+              accessibilityLabel="Email input field"
+              accessibilityHint="Enter your email address"
+              returnKeyType="next"
+              textContentType="emailAddress"
+              autoComplete="email"
             />
           </View>
 
@@ -57,19 +63,30 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
+              accessible={true}
+              accessibilityLabel="Password input field"
+              accessibilityHint="Enter your password"
+              returnKeyType="done"
+              textContentType="password"
+              autoComplete="password"
             />
           </View>
 
           {/* Role Selection for Testing */}
           <View style={styles.roleContainer}>
-            <Text style={styles.roleLabel}>Select Role (Testing Only):</Text>
-            <View style={styles.roleButtons}>
+            <Text style={styles.roleLabel} accessibilityRole="header">Select Role (Testing Only):</Text>
+            <View style={styles.roleButtons} accessibilityRole="radiogroup">
               <TouchableOpacity
                 style={[
                   styles.roleButton,
                   selectedRole === 'follower' && styles.roleButtonActive,
                 ]}
                 onPress={() => setSelectedRole('follower')}
+                accessible={true}
+                accessibilityLabel="Follower role"
+                accessibilityRole="radio"
+                accessibilityState={{ checked: selectedRole === 'follower' }}
+                accessibilityHint="Select follower role"
               >
                 <Text style={[
                   styles.roleButtonText,
@@ -82,6 +99,11 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
                   selectedRole === 'instructor' && styles.roleButtonActive,
                 ]}
                 onPress={() => setSelectedRole('instructor')}
+                accessible={true}
+                accessibilityLabel="Instructor role"
+                accessibilityRole="radio"
+                accessibilityState={{ checked: selectedRole === 'instructor' }}
+                accessibilityHint="Select instructor role"
               >
                 <Text style={[
                   styles.roleButtonText,
@@ -91,11 +113,23 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+          <TouchableOpacity 
+            style={styles.loginButton} 
+            onPress={handleSubmit}
+            accessible={true}
+            accessibilityLabel="Sign In button"
+            accessibilityRole="button"
+            accessibilityHint="Sign in to your account"
+          >
             <Text style={styles.loginButtonText}>Sign In</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
+          <TouchableOpacity 
+            onPress={() => setIsLogin(!isLogin)}
+            accessible={true}
+            accessibilityLabel={isLogin ? "Create account" : "Sign in to existing account"}
+            accessibilityRole="link"
+          >
             <Text style={styles.switchText}>
               Don't have an account? <Text style={styles.switchTextHighlight}>Create one</Text>
             </Text>
