@@ -23,16 +23,18 @@ export default function ProgressBar({
   progress, 
   accessibilityLabel 
 }: ProgressBarProps) {
-  // Ensure progress is between 0 and 100
+  // Ensure progress is between 0 and 100 and convert to integer to avoid precision errors
   const clampedProgress = Math.min(Math.max(0, progress), 100);
+  // Round to nearest integer for accessibilityValue to avoid precision errors
+  const intProgress = Math.round(clampedProgress);
   
   return (
     <View 
       style={styles.container}
       accessible={true}
       accessibilityRole="progressbar"
-      accessibilityLabel={accessibilityLabel || `Progress: ${clampedProgress}%`}
-      accessibilityValue={{ min: 0, max: 100, now: clampedProgress }}
+      accessibilityLabel={accessibilityLabel || `Progress: ${intProgress}%`}
+      accessibilityValue={{ min: 0, max: 100, now: intProgress }}
     >
       <View 
         style={[styles.bar, { width: `${clampedProgress}%` }]}

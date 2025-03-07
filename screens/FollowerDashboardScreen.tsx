@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import { Props } from '../types';
 import { useTaskContext } from '../context/TaskContext';
@@ -24,8 +25,18 @@ const categoryProgress = [
 ];
 
 export default function FollowerDashboardScreen({ navigation }: Props) {
-  const { currentProtocol, notification, dismissNotification } = useTaskContext();
+  const { currentProtocol, todaysTasks, notification, dismissNotification } = useTaskContext();
   const [activeTab, setActiveTab] = useState('FollowerDashboard');
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Define tab items for follower
   const tabItems = [
@@ -47,21 +58,30 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={true}
       >
-        <DashboardHeader protocol={currentProtocol} />
-        
-        <ProgressOverview 
-          weeklyProgress={weeklyProgress}
-          categoryProgress={categoryProgress}
-        />
-        
-        <TaskList />
-        
-        <TouchableOpacity
-          style={styles.achievementsButton}
-          onPress={() => navigation.navigate('Achievements')}
-        >
-          <Text style={styles.achievementsButtonText}>View Achievements</Text>
-        </TouchableOpacity>
+        {isLoading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0A84FF" />
+            <Text style={styles.loadingText}>Loading your dashboard...</Text>
+          </View>
+        ) : (
+          <>
+            <DashboardHeader protocol={currentProtocol} />
+            
+            <ProgressOverview 
+              weeklyProgress={weeklyProgress}
+              categoryProgress={categoryProgress}
+            />
+            
+            <TaskList />
+            
+            <TouchableOpacity
+              style={styles.achievementsButton}
+              onPress={() => navigation.navigate('Achievements')}
+            >
+              <Text style={styles.achievementsButtonText}>View Achievements</Text>
+            </TouchableOpacity>
+          </>
+        )}
         
         {/* Add extra padding at the bottom to account for the tab bar */}
         <View style={{ height: 100 }} />
@@ -84,6 +104,17 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 20,
     paddingBottom: 40,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 300,
+  },
+  loadingText: {
+    color: '#FFFFFF',
+    marginTop: 16,
+    fontSize: 16,
   },
   achievementsButton: {
     backgroundColor: '#0A84FF',

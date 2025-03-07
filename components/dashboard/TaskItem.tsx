@@ -1,99 +1,68 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Animated,
   Pressable,
   TouchableOpacity,
   Platform
 } from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
-import { useTaskContext } from '../../context/TaskContext';
+import { UserTask } from '../../data/mockData';
 
 interface TaskItemProps {
-  item: string;
+  item: UserTask;
   index: number;
+  onToggle: () => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ item, index }) => {
-  const { completedTasks, toggleTask, showNotification } = useTaskContext();
+const TaskItem: React.FC<TaskItemProps> = ({ item, index, onToggle }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [pressedId, setPressedId] = useState<string | null>(null);
-  const translateX = useRef(new Animated.Value(0)).current;
-
-  const onGestureEvent = useCallback((event: PanGestureHandlerGestureEvent) => {
-    const { translationX } = event.nativeEvent;
-    if (translationX <= 0) { // Only allow left swipe
-      translateX.setValue(translationX);
-    }
-  }, [translateX]);
-
-  const onHandlerStateChange = useCallback((event: PanGestureHandlerGestureEvent) => {
-    if (event.nativeEvent.state === 5) { // END state
-      const { translationX } = event.nativeEvent;
-      if (translationX < -100) { // Threshold for completing task
-        toggleTask(item);
-      }
-      Animated.spring(translateX, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [item, toggleTask, translateX]);
-
-  const handleVoiceCommand = useCallback((task: string) => {
-    showNotification('🎤 Voice command detected: "Complete task"');
-    setTimeout(() => toggleTask(task), 1000);
-  }, [showNotification, toggleTask]);
 
   return (
-    <PanGestureHandler
-      onGestureEvent={onGestureEvent}
-      onHandlerStateChange={onHandlerStateChange}
-    >
-      <Animated.View style={[
-        styles.taskCard,
-        { transform: [{ translateX }] }
-      ]}>
-        <Pressable
-          onPressIn={() => setPressedId(index.toString())}
-          onPressOut={() => setPressedId(null)}
-          onPress={() => toggleTask(item)}
-          {...(Platform.OS === 'web' ? {
-            onMouseEnter: () => setIsHovered(true),
-            onMouseLeave: () => setIsHovered(false),
-          } : {})}
-          style={({ pressed }) => [
-            styles.taskRow,
-            pressed && styles.taskPressed,
-            isHovered && styles.taskHovered
-          ]}
-        >
-          <View style={[
-            styles.checkbox,
-            completedTasks.includes(item) && styles.checkboxChecked
-          ]}>
-            {completedTasks.includes(item) && (
-              <View style={styles.checkmark} />
-            )}
-          </View>
+    <View style={styles.taskCard}>
+      <Pressable
+        onPressIn={() => setPressedId(index.toString())}
+        onPressOut={() => setPressedId(null)}
+        onPress={onToggle}
+        {...(Platform.OS === 'web' ? {
+          onMouseEnter: () => setIsHovered(true),
+          onMouseLeave: () => setIsHovered(false),
+        } : {})}
+        style={({ pressed }) => [
+          styles.taskRow,
+          pressed && styles.taskPressed,
+          isHovered && styles.taskHovered
+        ]}
+        accessible={true}
+        accessibilityRole="checkbox"
+        accessibilityLabel={`${item.title}, ${item.completed ? 'completed' : 'not completed'}`}
+        accessibilityState={{ checked: item.completed }}
+      >
+        <View style={[
+          styles.checkbox,
+          item.completed && styles.checkboxChecked
+        ]}>
+          {item.completed && (
+            <View style={styles.checkmark} />
+          )}
+        </View>
+        <View style={styles.textContainer}>
           <Text style={[
             styles.taskText,
-            completedTasks.includes(item) && styles.taskTextCompleted
-          ]}>{item}</Text>
-          <TouchableOpacity
-            onPress={() => handleVoiceCommand(item)}
-            style={styles.voiceButton}
-          >
-            <Text>🎤</Text>
-          </TouchableOpacity>
-        </Pressable>
-      </Animated.View>
-    </PanGestureHandler>
+            item.completed && styles.taskTextCompleted
+          ]}>{item.title}</Text>
+          {item.description && (
+            <Text style={styles.taskDescription}>{item.description}</Text>
+          )}
+          {item.frequency && (
+            <View style={styles.frequencyBadge}>
+              <Text style={styles.frequencyText}>{item.frequency}</Text>
+            </View>
+          )}
+        </View>
+      </Pressable>
+    </View>
   );
 };
 
@@ -105,7 +74,7 @@ const styles = StyleSheet.create({
   },
   taskRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: 16,
   },
   checkbox: {
@@ -117,6 +86,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 2,
   },
   checkboxChecked: {
     backgroundColor: '#0A84FF',
@@ -129,10 +99,19 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
     transform: [{ rotate: '-45deg' }],
   },
-  taskText: {
+  textContainer: {
     flex: 1,
+  },
+  taskText: {
     fontSize: 16,
+    fontWeight: '500',
     color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  taskDescription: {
+    fontSize: 14,
+    color: '#8E8E93',
+    marginBottom: 8,
   },
   taskTextCompleted: {
     textDecorationLine: 'line-through',
@@ -144,8 +123,16 @@ const styles = StyleSheet.create({
   taskHovered: {
     backgroundColor: '#2C2C2E',
   },
-  voiceButton: {
-    padding: 8,
+  frequencyBadge: {
+    backgroundColor: '#2C2C2E',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  frequencyText: {
+    fontSize: 12,
+    color: '#0A84FF',
   },
 });
 

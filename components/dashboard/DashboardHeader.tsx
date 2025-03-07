@@ -8,13 +8,16 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ protocol }) => {
+  // Ensure progress is a valid number
+  const progress = protocol?.progress || 0;
+  
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>{protocol.title}</Text>
+      <Text style={styles.title}>{protocol?.title || 'Protocol'}</Text>
       <View style={styles.progressContainer}>
-        <ProgressBar progress={protocol.progress} />
+        <ProgressBar progress={progress} />
         <Text style={styles.progressText}>
-          {protocol.progress}% Complete
+          {progress}% Complete
         </Text>
       </View>
     </View>
