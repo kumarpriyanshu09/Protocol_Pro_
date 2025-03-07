@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Text,
+  View,
 } from 'react-native';
 import { Props } from '../types';
 import { useTaskContext } from '../context/TaskContext';
@@ -12,6 +13,7 @@ import NotificationToast from '../components/NotificationToast';
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import ProgressOverview from '../components/dashboard/ProgressOverview';
 import TaskList from '../components/dashboard/TaskList';
+import { CustomTabBar } from '../navigation';
 
 // Mock data for charts - in a real app, this would come from an API or context
 const weeklyProgress = [30, 45, 55, 60, 70, 65, 80];
@@ -23,6 +25,15 @@ const categoryProgress = [
 
 export default function FollowerDashboardScreen({ navigation }: Props) {
   const { currentProtocol, notification, dismissNotification } = useTaskContext();
+  const [activeTab, setActiveTab] = useState('FollowerDashboard');
+
+  // Define tab items for follower
+  const tabItems = [
+    { name: 'Protocols', screen: 'ProtocolsScreen' },
+    { name: 'Tasks', screen: 'FollowerDashboard' },
+    { name: 'Journal', screen: 'JournalScreen' },
+    { name: 'Settings', screen: 'SettingsScreen' },
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,7 +62,13 @@ export default function FollowerDashboardScreen({ navigation }: Props) {
         >
           <Text style={styles.achievementsButtonText}>View Achievements</Text>
         </TouchableOpacity>
+        
+        {/* Add extra padding at the bottom to account for the tab bar */}
+        <View style={{ height: 100 }} />
       </ScrollView>
+      
+      {/* Add the custom tab bar */}
+      <CustomTabBar items={tabItems} activeTab={activeTab} />
     </SafeAreaView>
   );
 }

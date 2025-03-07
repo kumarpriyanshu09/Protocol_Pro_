@@ -1,0 +1,19 @@
+---
+description: Prompts updates to documents when changes misalign with existing instructions.
+globs: 
+alwaysApply: false
+---
+Follow the Update Instructions in update_instructions.md.
+Prompt the user to update relevant documents (PRD, App Flow, Tech Stack, FrontEnd) when changes are detected.
+Pause and seek confirmation (Yes/No) before applying updates.
+Log changes for manual review if the user declines.
+Ensure updates are dynamic and compatible with future tools or modifications.
+
+--
+Before proceeding, please confirm if you would like Cursor to apply this update rule and integrate it into the project:
+```
+**Update Required**: 
+- Change Detected: New Update Instructions document created
+- Affected Document: .cursorrules and project setup
+- Suggested Update: Add rule to .cursorrules and upload update_instructions.md
+- Ask for "Confirm Update? (Yes/No)"

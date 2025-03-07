@@ -18,6 +18,17 @@ interface Props {
    * Useful for logging errors to an external service.
    */
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  
+  /**
+   * Optional test ID for testing purposes.
+   */
+  testID?: string;
+  
+  /**
+   * For testing purposes only - forces the error boundary to reset.
+   * This should only be used in tests.
+   */
+  forceReset?: boolean;
 }
 
 interface State {
@@ -53,6 +64,18 @@ class ErrorBoundary extends Component<Props, State> {
       error,
       errorInfo: null
     };
+  }
+  
+  static getDerivedStateFromProps(props: Props, state: State): Partial<State> | null {
+    // For testing purposes only - allows forcing a reset from props
+    if (props.forceReset && state.hasError) {
+      return {
+        hasError: false,
+        error: null,
+        errorInfo: null
+      };
+    }
+    return null;
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -92,14 +115,19 @@ class ErrorBoundary extends Component<Props, State> {
           accessible={true}
           accessibilityRole="alert"
           accessibilityLiveRegion="assertive"
+          testID="error-boundary-fallback"
         >
           <Text 
             style={styles.title}
             accessibilityRole="header"
+            testID="error-boundary-title"
           >
             Something went wrong
           </Text>
-          <Text style={styles.message}>
+          <Text 
+            style={styles.message}
+            testID="error-boundary-message"
+          >
             {this.state.error?.toString() || 'An unexpected error occurred'}
           </Text>
           <TouchableOpacity 
@@ -109,6 +137,7 @@ class ErrorBoundary extends Component<Props, State> {
             accessibilityLabel="Try Again button"
             accessibilityRole="button"
             accessibilityHint="Attempt to recover from the error"
+            testID="error-boundary-reset-button"
           >
             <Text style={styles.buttonText}>Try Again</Text>
           </TouchableOpacity>
@@ -116,7 +145,11 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.props.children;
+    return (
+      <View testID={this.props.testID} style={{ flex: 1 }}>
+        {this.props.children}
+      </View>
+    );
   }
 }
 

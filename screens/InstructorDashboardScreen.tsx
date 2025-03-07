@@ -1,28 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/navigation';
 import { mockProtocols, mockFollowers } from '../data/mockData';
 import ProgressBar from '../components/ProgressBar';
+import { CustomTabBar } from '../navigation';
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'InstructorDashboard'>;
 };
 
 export default function InstructorDashboardScreen({ navigation }: Props) {
+  const [activeTab, setActiveTab] = useState('InstructorDashboard');
+  
+  // Define tab items for instructor
+  const tabItems = [
+    { name: 'Protocols', screen: 'ProtocolsScreen' },
+    { name: 'Dashboard', screen: 'InstructorDashboard' },
+    { name: 'Messages', screen: 'MessagesScreen' },
+    { name: 'Settings', screen: 'SettingsScreen' },
+  ];
+  
   // Calculate followers with 80%+ completion
   const highPerformingFollowers = mockFollowers.filter(f => f.progress >= 80);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <View style={styles.statsCard}>
           <Text style={styles.statsTitle}>High Performing Followers</Text>
           <Text style={styles.statsNumber}>{highPerformingFollowers.length}</Text>
@@ -42,44 +53,40 @@ export default function InstructorDashboardScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          <FlatList
-            data={mockProtocols}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={styles.card}>
-                <Text style={styles.cardTitle}>{item.title}</Text>
-                <View style={styles.progressContainer}>
-                  <ProgressBar progress={item.progress} />
-                  <Text style={styles.progressText}>{item.progress}% Complete</Text>
-                </View>
-                <Text style={styles.stepsCount}>{item.steps.length} steps</Text>
-              </TouchableOpacity>
-            )}
-          />
+          {mockProtocols.map(item => (
+            <TouchableOpacity key={item.id} style={styles.card}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <View style={styles.progressContainer}>
+                <ProgressBar progress={item.progress} />
+                <Text style={styles.progressText}>{item.progress}% Complete</Text>
+              </View>
+              <Text style={styles.stepsCount}>{item.steps.length} steps</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Active Followers</Text>
-          <FlatList
-            data={mockFollowers}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.followerCard}>
-                <View style={styles.followerHeader}>
-                  <Text style={styles.followerName}>{item.name}</Text>
-                  <Text style={[
-                    styles.progressText,
-                    item.progress >= 80 && styles.highPerformingText
-                  ]}>{item.progress}%</Text>
-                </View>
-                <ProgressBar progress={item.progress} />
+          {mockFollowers.map(item => (
+            <View key={item.id} style={styles.followerCard}>
+              <View style={styles.followerHeader}>
+                <Text style={styles.followerName}>{item.name}</Text>
+                <Text style={[
+                  styles.progressText,
+                  item.progress >= 80 && styles.highPerformingText
+                ]}>{item.progress}%</Text>
               </View>
-            )}
-          />
+              <ProgressBar progress={item.progress} />
+            </View>
+          ))}
         </View>
-      </View>
+        
+        {/* Add extra padding at the bottom to account for the tab bar */}
+        <View style={{ height: 100 }} />
+      </ScrollView>
+      
+      {/* Add the custom tab bar */}
+      <CustomTabBar items={tabItems} activeTab={activeTab} />
     </SafeAreaView>
   );
 }

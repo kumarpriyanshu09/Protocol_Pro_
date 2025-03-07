@@ -1,7 +1,33 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import TaskItem from '../../components/dashboard/TaskItem';
-import { TaskProvider } from '../../context/TaskContext';
+
+// Mock the gesture handler
+jest.mock('react-native-gesture-handler', () => {
+  const View = require('react-native').View;
+  return {
+    PanGestureHandler: ({ children }: { children: React.ReactNode }) => children,
+    State: {
+      ACTIVE: 'ACTIVE',
+      END: 5,
+    },
+  };
+});
+
+// Mock Animated
+jest.mock('react-native', () => {
+  const rn = jest.requireActual('react-native');
+  rn.Animated = {
+    ...rn.Animated,
+    View: rn.View,
+    event: jest.fn(),
+    spring: jest.fn().mockReturnValue({ start: jest.fn() }),
+    Value: jest.fn().mockReturnValue({
+      setValue: jest.fn(),
+    }),
+  };
+  return rn;
+});
 
 // Mock the TaskContext values
 const mockToggleTask = jest.fn();

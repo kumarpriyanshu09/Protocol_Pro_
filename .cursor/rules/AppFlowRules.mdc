@@ -1,0 +1,9 @@
+---
+description: Provides an overview of the Protocol Pro app flow and its objectives.
+globs: 
+alwaysApply: false
+---
+Follow the Protocol Pro App Flow Document for navigation and feature flows.
+Implement each feature flow as a separate module for easy removal or disabling.
+Use mock data and simulated interactions (e.g., console logs, alerts) for preview mode.
+Ensure smooth page transitions with fade-in/fade-out or slide animations.

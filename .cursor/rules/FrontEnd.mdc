@@ -1,0 +1,10 @@
+---
+description: Introduces the purpose and role of the frontend in Protocol Pro.
+globs: 
+alwaysApply: false
+---
+Follow the Protocol Pro Frontend Guidelines Document in FrontEnd.md.
+Keep components modular and reusable, stored in feature-specific folders.
+Use StyleSheet.create for styling, adhering to the defined color palette and typography.
+Ensure accessibility and responsiveness as outlined in Design Principles.
+Allow dynamic integration of future tools by using props and a theme module.

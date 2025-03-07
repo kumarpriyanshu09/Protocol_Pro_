@@ -30,7 +30,8 @@
     "extra": {
       "eas": {
         "projectId": "protocol-pro"
-      }
+      },
+      "autoLoginInDev": true
     },
     "sdkVersion": "52.0.0",
     "plugins": [],

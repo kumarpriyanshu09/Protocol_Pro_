@@ -13,12 +13,13 @@ Protocol Pro is designed to help instructors create and manage protocols, while 
 - Different dashboards for instructors and followers
 - Protocol creation functionality
 - Achievement tracking
+- Custom navigation system with tab bar
 
 ## Tech Stack
 
-- React Native (v0.73.2)
-- Expo (v50.0.0)
-- React Navigation (v7.0.15)
+- React Native (v0.76.7)
+- Expo (v52.0.0)
+- React Navigation (v6.1.9)
 - React Native Chart Kit (v6.12.0)
 - TypeScript (v5.8.2)
 
@@ -53,6 +54,17 @@ Protocol Pro is designed to help instructors create and manage protocols, while 
 - `screens/`: Application screens
 - `data/`: Mock data for development
 - `types/`: TypeScript type definitions
+- `navigation/`: Navigation components and configuration
+
+## Navigation System
+
+Protocol Pro uses a custom navigation system that combines React Navigation's stack navigator with a custom tab bar component:
+
+- **Stack Navigator**: Used for the main navigation flow, including login, dashboards, and other screens.
+- **Custom Tab Bar**: A custom component that appears at the bottom of the screen and allows users to navigate between different sections of the app.
+- **Role-Based Navigation**: Different tab bars are shown based on the user's role (follower or instructor).
+
+The navigation system is designed to be modular and extensible, making it easy to add new screens and features in the future.
 
 ## Development Workflow
 
@@ -91,9 +103,9 @@ Protocol Pro is designed to help instructors create and manage protocols, while 
 
 ## Development Notes
 
-- The app uses React Navigation for screen transitions
+- The app uses a custom navigation system with React Navigation's stack navigator and a custom tab bar component
 - The main entry point is index.js which registers the App component
-- App.tsx contains the navigation setup with screens for Login, Instructor Dashboard, Protocol Creation, Follower Dashboard, and Achievements
+- App.tsx contains the navigation setup with screens for Login, Instructor Dashboard, Protocol Creation, Follower Dashboard, and more
 
 ## License
 

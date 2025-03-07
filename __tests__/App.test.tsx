@@ -2,6 +2,21 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import App from '../App';
 
+// Mock the StatusBar component
+jest.mock('expo-status-bar', () => ({
+  StatusBar: () => 'StatusBar',
+}));
+
+// Mock the GestureHandlerRootView
+jest.mock('react-native-gesture-handler', () => {
+  const View = require('react-native').View;
+  return {
+    GestureHandlerRootView: ({ children, style }: { children: React.ReactNode, style?: any }) => (
+      <View style={style}>{children}</View>
+    ),
+  };
+});
+
 // Mock the navigation container to avoid navigation errors in tests
 jest.mock('@react-navigation/native', () => {
   return {
@@ -31,6 +46,9 @@ jest.mock('../screens/AchievementsScreen', () => 'AchievementsScreen');
 jest.mock('../context/TaskContext', () => ({
   TaskProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
+
+// Mock i18n
+jest.mock('../i18n/config', () => ({}));
 
 describe('App', () => {
   it('renders without crashing', () => {
