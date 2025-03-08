@@ -12,9 +12,18 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "mobile": "cd apps/mobile && npm run start"
+    "mobile": "cd apps/mobile && npm run start",
+    "install:all": "npm install && npm run install:workspaces",
+    "install:workspaces": "npm run install:ui && npm run install:core && npm run install:api && npm run install:store && npm run install:mobile",
+    "install:ui": "cd packages/ui && npm install",
+    "install:core": "cd packages/core && npm install",
+    "install:api": "cd packages/api && npm install",
+    "install:store": "cd packages/store && npm install",
+    "install:mobile": "cd apps/mobile && npm install"
   },
   "devDependencies": {
+    "@types/react-redux": "^7.1.33",
+    "@types/redux-persist": "^4.3.1",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "turbo": "^2.4.4"
@@ -23,4 +32,4 @@
     "node": ">=18.0.0"
   },
   "packageManager": "npm@10.2.3"
-} 
+}
