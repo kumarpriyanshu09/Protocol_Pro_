@@ -8,6 +8,7 @@ export type RootStackParamList = {
   FollowerDashboard: undefined;
   Achievements: undefined;
   ProtocolsScreen: undefined;
+  ProtocolScreen: undefined;
   TasksScreen: undefined;
   JournalScreen: undefined;
   MessagesScreen: undefined;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
  * Follower tab navigator parameter list
  */
 export type FollowerTabParamList = {
+  Protocol: undefined;
   Protocols: undefined;
   Tasks: undefined;
   Journal: undefined;

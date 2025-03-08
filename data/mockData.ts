@@ -43,6 +43,57 @@ export interface UserTask {
 // Mock Protocol Templates (available for users to enroll in)
 export const mockProtocolTemplates: ProtocolTemplate[] = [
   {
+    id: '4',
+    title: 'Huberman Productivity Protocol',
+    description: 'Optimize productivity using Andrew Huberman\'s scientifically-backed routine',
+    createdBy: 'instructor1',
+    enrolledCount: 15,
+    tasks: [
+      {
+        id: 'h1',
+        title: 'Wake up early (5:30-6:00 AM)',
+        description: 'Consistent wake time optimizes circadian rhythm',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h2',
+        title: 'Morning sunlight exposure (10-30 min)',
+        description: 'Go outside without sunglasses to set circadian rhythm',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h3',
+        title: 'Cold exposure (shower or face washing)',
+        description: 'Brief cold exposure increases alertness and focus',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h4',
+        title: '90-minute focused work blocks',
+        description: 'Set timer for intense focus periods with breaks in between',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h5',
+        title: 'Non-sleep deep rest (20 min)',
+        description: 'Mid-day meditation or relaxation to restore focus',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h6',
+        title: 'Set up a distraction-free workspace',
+        description: 'Create environment conducive to deep work',
+        frequency: 'Daily'
+      },
+      {
+        id: 'h7',
+        title: 'Wind down 1-2 hours before bed',
+        description: 'Reduce blue light and mental stimulation before sleep',
+        frequency: 'Daily'
+      }
+    ]
+  },
+  {
     id: '1',
     title: '30-Day Fitness Challenge',
     description: 'Build strength and endurance over 30 days',
@@ -127,6 +178,61 @@ export const mockProtocolTemplates: ProtocolTemplate[] = [
 
 // Mock User Protocols (protocols that users have enrolled in)
 export const mockUserProtocols: UserProtocol[] = [
+  {
+    id: 'up0',
+    userId: 'user1',
+    templateId: '4',
+    progress: 0.70,
+    startDate: '2025-03-01',
+    tasks: [
+      {
+        id: 'ut-h1',
+        protocolTaskId: 'h1',
+        title: 'Wake up early (5:30-6:00 AM)',
+        completed: true,
+        completedDate: '2025-03-07'
+      },
+      {
+        id: 'ut-h2',
+        protocolTaskId: 'h2',
+        title: 'Morning sunlight exposure (10-30 min)',
+        completed: true,
+        completedDate: '2025-03-07'
+      },
+      {
+        id: 'ut-h3',
+        protocolTaskId: 'h3',
+        title: 'Cold exposure (shower or face washing)',
+        completed: true,
+        completedDate: '2025-03-07'
+      },
+      {
+        id: 'ut-h4',
+        protocolTaskId: 'h4',
+        title: '90-minute focused work blocks',
+        completed: false
+      },
+      {
+        id: 'ut-h5',
+        protocolTaskId: 'h5',
+        title: 'Non-sleep deep rest (20 min)',
+        completed: false
+      },
+      {
+        id: 'ut-h6',
+        protocolTaskId: 'h6',
+        title: 'Set up a distraction-free workspace',
+        completed: true,
+        completedDate: '2025-03-06'
+      },
+      {
+        id: 'ut-h7',
+        protocolTaskId: 'h7',
+        title: 'Wind down 1-2 hours before bed',
+        completed: false
+      }
+    ]
+  },
   {
     id: 'up1',
     userId: 'user1',

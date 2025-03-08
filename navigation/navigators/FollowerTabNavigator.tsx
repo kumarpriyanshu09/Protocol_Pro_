@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Import screens
 import ProtocolsScreen from '../../screens/ProtocolsScreen';
+import ProtocolScreen from '../../screens/ProtocolScreen';
 import TasksScreen from '../../screens/TasksScreen';
 import JournalScreen from '../../screens/JournalScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
@@ -46,8 +47,17 @@ const FollowerTabNavigator = () => {
         tabBarLabelStyle: styles.tabLabel,
         headerShown: false,
       }}
-      initialRouteName="Tasks"
+      initialRouteName="Protocol"
     >
+      <Tab.Screen 
+        name="Protocol" 
+        component={ProtocolScreen} 
+        options={{
+          tabBarIcon: ({ color, focused }: { color: string; focused: boolean }) => (
+            <TabIcon name="Protocol" color={color} focused={focused} />
+          ),
+        }}
+      />
       <Tab.Screen 
         name="Protocols" 
         component={ProtocolsScreen} 

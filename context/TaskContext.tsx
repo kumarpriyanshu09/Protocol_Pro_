@@ -26,7 +26,9 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // State for protocols and tasks
   const [availableProtocols, setAvailableProtocols] = useState<ProtocolTemplate[]>(mockProtocolTemplates);
   const [enrolledProtocols, setEnrolledProtocols] = useState<UserProtocol[]>(mockUserProtocols);
-  const [currentProtocol, setCurrentProtocolState] = useState<UserProtocol | null>(mockUserProtocols[0] || null);
+  // Specifically select the Huberman protocol (up0) as the default protocol
+  const hubermanProtocol = mockUserProtocols.find(p => p.id === 'up0');
+  const [currentProtocol, setCurrentProtocolState] = useState<UserProtocol | null>(hubermanProtocol || mockUserProtocols[0] || null);
   const [todaysTasks, setTodaysTasks] = useState<UserTask[]>([]);
   
   // Notification state
@@ -52,6 +54,14 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setTodaysTasks([]);
     }
   }, [currentProtocol]);
+
+  // Show notification
+  const showNotification = useCallback((message: string) => {
+    setNotification({
+      message,
+      isVisible: true
+    });
+  }, []);
 
   // Set the current protocol by ID
   const setCurrentProtocol = useCallback((protocolId: string) => {
@@ -89,14 +99,6 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Show notification
     showNotification(`Enrolled in ${template.title}`);
   }, [availableProtocols, showNotification]);
-
-  // Show notification
-  const showNotification = useCallback((message: string) => {
-    setNotification({
-      message,
-      isVisible: true
-    });
-  }, []);
 
   // Dismiss notification
   const dismissNotification = useCallback(() => {

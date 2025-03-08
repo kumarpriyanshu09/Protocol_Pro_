@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/navigation';
-import { mockProtocols, mockFollowers } from '../data/mockData';
+import { mockProtocolTemplates, mockFollowers } from '../data/mockData';
 import ProgressBar from '../components/ProgressBar';
 import { CustomTabBar } from '../navigation';
 
@@ -53,14 +53,15 @@ export default function InstructorDashboardScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          {mockProtocols.map(item => (
+          {mockProtocolTemplates.map(item => (
             <TouchableOpacity key={item.id} style={styles.card}>
               <Text style={styles.cardTitle}>{item.title}</Text>
               <View style={styles.progressContainer}>
-                <ProgressBar progress={item.progress} />
-                <Text style={styles.progressText}>{item.progress}% Complete</Text>
+                {/* Convert enrolledCount to a percentage scale for ProgressBar (assuming 20 enrollments is 100%) */}
+                <ProgressBar progress={Math.min(((item.enrolledCount || 0) / 20) * 100, 100)} />
+                <Text style={styles.progressText}>{item.enrolledCount || 0} enrollments</Text>
               </View>
-              <Text style={styles.stepsCount}>{item.steps.length} steps</Text>
+              <Text style={styles.stepsCount}>{item.tasks.length} tasks</Text>
             </TouchableOpacity>
           ))}
         </View>
