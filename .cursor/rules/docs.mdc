@@ -1,0 +1,63 @@
+---
+description: Instruct Cursor to recursively traverse the `docs/` folder and its subdirectories, reading and aggregating information from all Markdown (`.md`) files. These documents include guidelines, readme files, and component-specific documentation (e.g., Architecture, Development).
+globs: 
+alwaysApply: false
+---
+# Cursor Documentation Parsing Rules
+
+## Objective
+Instruct Cursor to recursively traverse the `docs/` folder and its subdirectories, reading and aggregating information from all Markdown (`.md`) files. These documents include guidelines, readme files, and component-specific documentation (e.g., Architecture, Development).
+
+## Scope
+- **Files:** All files ending with `.md` located in the `docs/` folder and any of its subfolders.
+- **Folders:** Includes but is not limited to:
+  - `docs/architecture`
+  - `docs/development`
+  - `docs/guidelines`
+  - Any additional subfolders that contain project documentation.
+
+## Process
+1. **Traversal:**  
+   - Recursively search the `docs/` folder for all `.md` files.
+   - Log the path and filename of each document encountered.
+
+2. **Parsing Each Document:**  
+   - **Headings:** Use headings (`#`, `##`, `###`, etc.) to understand the document structure.
+   - **Content Extraction:**  
+     - Extract key sections, best practices, guidelines, and code examples.
+     - Treat code blocks as contextual examples.
+   - **Metadata:**  
+     - If metadata (such as document title, author, or date) is present, capture it for reference.
+   - **Cross-References:**  
+     - Note any references to other documents or sections that might require cross-checking.
+
+3. **Aggregation:**  
+   - Summarize the key points from each document.
+   - Organize the summaries based on their folder context (e.g., architectural guidelines vs. development practices).
+   - Generate a final aggregated summary that can be used for future code generation or improvement suggestions.
+
+## Special Considerations
+- **Non-Text Elements:**  
+  - Ignore images or media files that are embedded in the Markdown; focus solely on textual content.
+- **Error Handling:**  
+  - If a file fails to parse, log an error with the file path and continue with other files.
+- **Environment:**  
+  - This rule is intended for internal documentation review in non-production environments.
+
+## Output
+- **Per-File Summary:**  
+  - For each document, output a summary including its main sections and any critical guidelines.
+- **Aggregated Report:**  
+  - Compile an overall report detailing:
+    - The total number of files processed.
+    - Key themes and guidelines extracted.
+    - Any notable cross-references or dependencies mentioned across documents.
+
+## Logging & Debugging
+- Log each file path and parsing result.
+- Include a summary log of files that encountered errors or could not be fully processed.
+
+## Update Frequency
+- Run these rules whenever changes occur in the `docs/` folder to ensure the aggregated documentation remains current.
+
+

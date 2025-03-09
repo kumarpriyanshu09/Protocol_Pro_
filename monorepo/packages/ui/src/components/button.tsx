@@ -86,7 +86,7 @@ const getSizeStyles = (size: string = 'default') => {
       };
     case 'lg':
       return {
-        paddingHorizontal: 32,
+        paddingHorizontal: 24,
         paddingVertical: 12,
         borderRadius: 8,
       };
@@ -97,14 +97,14 @@ const getSizeStyles = (size: string = 'default') => {
         borderRadius: 20,
         paddingHorizontal: 0,
         paddingVertical: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'center' as const,
+        alignItems: 'center' as const,
       };
     default:
       return {
         paddingHorizontal: 16,
         paddingVertical: 10,
-        borderRadius: 8,
+        borderRadius: 6,
       };
   }
 };

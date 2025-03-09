@@ -50,5 +50,32 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 
 // Export types
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; 
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
+
+// Re-export actions from slices to avoid type issues
+export { 
+  login, 
+  logout, 
+  setUser, 
+  setToken, 
+  clearAuth 
+} from './slices/authSlice';
+
+export { 
+  fetchTasks, 
+  addTask, 
+  updateTask, 
+  deleteTask,
+  clearTasks,
+  toggleTaskCompletion,
+  updateTaskStrategies
+} from './slices/tasksSlice';
+
+export { 
+  fetchProtocols
+} from './slices/protocolsSlice';
+
+export { 
+  setTheme
+} from './slices/uiSlice'; 

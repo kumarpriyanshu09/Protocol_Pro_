@@ -11,12 +11,24 @@ import * as Notifications from 'expo-notifications';
 
 // Import from packages
 import { Button, Card, CardContent, CardHeader, CardTitle, Text } from 'ui';
-import { store, persistor, openTaskStrategiesModal, fetchTasks } from 'store';
+import { store, persistor, fetchTasks } from 'store';
 
 // Import components
 import { AuthStatus } from './components/AuthStatus';
 import { TaskList } from './components/TaskList';
 import { TaskStrategiesModal } from './components/modals/TaskStrategiesModal';
+
+// Import context providers
+import { TaskProvider } from './context/TaskContext';
+
+// Import navigation
+import FollowerTabNavigator from './navigation/navigators/FollowerTabNavigator';
+import InstructorTabNavigator from './navigation/navigators/InstructorTabNavigator';
+
+// Import screens
+import LoginScreen from './screens/LoginScreen';
+import AchievementsScreen from './screens/AchievementsScreen';
+import MessagesScreen from './screens/MessagesScreen';
 
 // Comment out the notification handler setup
 /*
@@ -31,6 +43,11 @@ Notifications.setNotificationHandler({
 
 // Define navigation types
 type RootStackParamList = {
+  Login: undefined;
+  InstructorDashboard: undefined;
+  FollowerDashboard: undefined;
+  Achievements: undefined;
+  Messages: undefined;
   Home: undefined;
   Details: { id: string };
 };
@@ -57,9 +74,8 @@ const AppWrapper = () => {
       
       // Handle different notification types
       if (data.type === 'TASK_REMINDER' && data.taskId) {
-        dispatch(openTaskStrategiesModal(data.taskId));
-      } else {
-        dispatch(openTaskStrategiesModal(null));
+        // Handle task reminder notification
+        console.log('Task reminder notification for task:', data.taskId);
       }
     });
 
@@ -80,27 +96,48 @@ const AppWrapper = () => {
         <SafeAreaProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <StatusBar style="light" />
-            <NavigationContainer>
-              <Stack.Navigator
-                initialRouteName="Home"
-                screenOptions={{
-                  headerStyle: {
-                    backgroundColor: '#0891b2',
-                  },
-                  headerTintColor: '#FFFFFF',
-                  headerTitleStyle: {
-                    fontWeight: '600',
-                  },
-                  cardStyle: { backgroundColor: '#f4f4f5' },
-                }}
-              >
-                <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Protocol Pro' }} />
-                <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Details' }} />
-              </Stack.Navigator>
-              
-              {/* Add the TaskStrategiesModal here so it's available globally */}
-              <TaskStrategiesModal />
-            </NavigationContainer>
+            <TaskProvider>
+              <NavigationContainer>
+                <Stack.Navigator
+                  initialRouteName="Login"
+                  screenOptions={{
+                    headerStyle: {
+                      backgroundColor: '#0891b2',
+                    },
+                    headerTintColor: '#FFFFFF',
+                    headerTitleStyle: {
+                      fontWeight: '600',
+                    },
+                    cardStyle: { backgroundColor: '#f4f4f5' },
+                  }}
+                >
+                  <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
+                  <Stack.Screen 
+                    name="InstructorDashboard" 
+                    component={InstructorTabNavigator} 
+                    options={{ 
+                      title: 'Instructor Dashboard',
+                      headerShown: false 
+                    }} 
+                  />
+                  <Stack.Screen 
+                    name="FollowerDashboard" 
+                    component={FollowerTabNavigator} 
+                    options={{ 
+                      title: 'Follower Dashboard',
+                      headerShown: false 
+                    }} 
+                  />
+                  <Stack.Screen name="Achievements" component={AchievementsScreen} options={{ title: 'Achievements' }} />
+                  <Stack.Screen name="Messages" component={MessagesScreen} options={{ title: 'Messages' }} />
+                  <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Protocol Pro' }} />
+                  <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Details' }} />
+                </Stack.Navigator>
+                
+                {/* Add the TaskStrategiesModal here so it's available globally */}
+                <TaskStrategiesModal />
+              </NavigationContainer>
+            </TaskProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
       </PersistGate>
@@ -115,7 +152,8 @@ const HomeScreen = ({ navigation }: any) => {
   // Function to handle the "Show Tasks" button press
   const handleShowTasks = () => {
     dispatch(fetchTasks());
-    dispatch(openTaskStrategiesModal(null));
+    // Show tasks in some other way
+    console.log('Showing tasks...');
   };
 
   // Function to schedule a test notification
@@ -254,7 +292,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    marginTop: 16,
+    marginTop: 12,
   },
   subtitle: {
     marginTop: 8,

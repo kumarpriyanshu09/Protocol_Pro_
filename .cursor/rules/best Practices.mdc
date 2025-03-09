@@ -1,0 +1,11 @@
+---
+description: Coding with AI needs new best practices.
+globs: 
+alwaysApply: true
+---
+- Lint everything, no unused refs
+- <50 lines a function
+- AI code review 
+- Your AI code breaks, you own it
+- Force comments on every function
+- Mermaid diagram for each PR
